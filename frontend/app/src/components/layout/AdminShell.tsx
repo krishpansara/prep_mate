@@ -41,7 +41,7 @@ export default function AdminShell({ children }: AdminShellProps) {
         {/* Brand */}
         <div className="mb-8 px-2">
           <h1 className="text-2xl font-bold text-slate-900 dark:text-white tracking-tighter font-headline">
-            Zenith Prep
+            PrepMate
           </h1>
           <p className="text-xs text-on-surface-variant opacity-70">Admin Console</p>
         </div>

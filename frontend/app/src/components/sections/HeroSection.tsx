@@ -17,7 +17,7 @@ interface HeroSectionProps {
 }
 
 export default function HeroSection({
-  badge = 'Zenith Prep v2.0',
+  badge = 'PrepMate v2.0',
   heading = 'Master Interviews',
   headingAccent = 'Without Distractions',
   subheading = 'A focused, content-first learning experience for developers who value clarity over clutter. Prepare with precision, not noise.',
@@ -25,7 +25,7 @@ export default function HeroSection({
   secondaryCTA = 'View Syllabus',
   onPrimaryClick,
   onSecondaryClick,
-  imageSrc = 'https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?w=800&q=80',
+  imageSrc = 'https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?w=400&q=60',
   imageAlt = 'Minimalist developer workspace',
   statusText = 'Deep Work Session: Active',
 }: HeroSectionProps) {

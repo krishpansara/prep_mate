@@ -104,7 +104,7 @@ export default function TopicsGrid({
                   </span>
                 )}
                 <div className="h-px flex-1 bg-surface-variant mx-4" />
-                <button className="w-10 h-10 rounded-full bg-on-surface text-surface flex items-center justify-center group-hover:bg-primary transition-colors">
+                <button aria-label="View topic details" className="w-10 h-10 rounded-full bg-on-surface text-surface flex items-center justify-center group-hover:bg-primary transition-colors">
                   <Icon name="north_east" size="xs" />
                 </button>
               </div>

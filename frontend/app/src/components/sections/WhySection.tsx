@@ -27,7 +27,7 @@ const defaultFeatures: FeatureItem[] = [
 ]
 
 const defaultTestimonial: Testimonial = {
-  quote: '"Zenith Prep feels like studying in a high-end library. The interface is so quiet that I can actually think. I cleared my L5 interview at Google thanks to this focused approach."',
+  quote: '"PrepMate feels like studying in a high-end library. The interface is so quiet that I can actually think. I cleared my L5 interview at Google thanks to this focused approach."',
   author: 'Alex Rivera',
   role: 'Senior Staff Engineer',
   avatarUrl: 'https://randomuser.me/api/portraits/men/32.jpg',
@@ -45,7 +45,7 @@ const colorDotMap: Record<FeatureItem['color'], string> = {
 }
 
 export default function WhySection({
-  heading = 'Why Zenith\nIs Different.',
+  heading = 'Why PrepMate\nIs Different.',
   features = defaultFeatures,
   testimonial = defaultTestimonial,
   stats = defaultStats,
@@ -69,7 +69,7 @@ export default function WhySection({
                     )}
                   </div>
                   <div className="pb-8">
-                    <h4 className="text-xl font-bold mb-2">{feature.title}</h4>
+                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
                     <p className="text-on-surface-variant leading-relaxed max-w-sm">{feature.description}</p>
                   </div>
                 </div>
@@ -92,6 +92,7 @@ export default function WhySection({
                     <img
                       src={testimonial.avatarUrl}
                       alt={testimonial.author}
+                      loading="lazy"
                       className="w-full h-full object-cover rounded-full"
                     />
                   </div>

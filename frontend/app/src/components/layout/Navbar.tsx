@@ -18,7 +18,7 @@ const defaultNavLinks: NavItem[] = [
 ]
 
 export default function Navbar({
-  logoText = 'Architect',
+  logoText = 'PrepMate',
   navLinks = defaultNavLinks,
   user,
   showSearch = true,

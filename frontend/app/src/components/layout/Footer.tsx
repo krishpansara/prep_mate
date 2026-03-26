@@ -23,7 +23,7 @@ const defaultColumns: FooterColumn[] = [
     heading: 'Platform',
     links: [
       { label: 'About Us', href: '#' },
-      { label: 'Zenith Pro', href: '#' },
+      { label: 'PrepMate Pro', href: '#' },
       { label: 'Help Center', href: '#' },
       { label: 'Privacy Policy', href: '#' },
     ],
@@ -36,7 +36,7 @@ const defaultSocials: SocialLink[] = [
 ]
 
 export default function Footer({
-  brand = 'Zenith Prep',
+  brand = 'PrepMate',
   tagline = 'The focused interview prep platform for modern developers. Designed for clarity, built for success.',
   columns = defaultColumns,
   socials = defaultSocials,
@@ -56,9 +56,9 @@ export default function Footer({
         {/* Columns */}
         {columns.map((col) => (
           <div key={col.heading}>
-            <h5 className="font-bold mb-6 text-on-surface uppercase tracking-widest text-xs">
+            <h3 className="font-bold mb-6 text-on-surface uppercase tracking-widest text-xs">
               {col.heading}
-            </h5>
+            </h3>
             <ul className="space-y-4 text-sm text-on-surface-variant">
               {col.links.map((link) => (
                 <li key={link.label}>
@@ -76,9 +76,9 @@ export default function Footer({
 
         {/* Socials */}
         <div>
-          <h5 className="font-bold mb-6 text-on-surface uppercase tracking-widest text-xs">
+          <h3 className="font-bold mb-6 text-on-surface uppercase tracking-widest text-xs">
             Connect
-          </h5>
+          </h3>
           <div className="flex gap-4">
             {socials.map((social) => (
               <a
@@ -96,10 +96,10 @@ export default function Footer({
 
       {/* Bottom bar */}
       <div className="max-w-[1440px] mx-auto mt-20 pt-8 border-t border-outline-variant/10 flex flex-col md:flex-row justify-between items-center gap-6">
-        <p className="text-sm text-on-surface-variant opacity-60">
+        <p className="text-sm text-on-surface-variant font-medium">
           © {copyrightYear} {brand}. All rights reserved.
         </p>
-        <div className="flex gap-8 text-sm text-on-surface-variant opacity-60">
+        <div className="flex gap-8 text-sm text-on-surface-variant font-medium">
           <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
           <a href="#" className="hover:text-primary transition-colors">Cookie Policy</a>
         </div>

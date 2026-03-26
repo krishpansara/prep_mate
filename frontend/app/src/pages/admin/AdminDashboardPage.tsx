@@ -86,7 +86,7 @@ export default function AdminDashboardPage() {
           Dashboard Overview
         </h2>
         <p className="text-on-surface-variant max-w-2xl leading-relaxed">
-          Welcome back. Zenith Prep's user engagement is up by 12% this week. Here is your current platform snapshot.
+          Welcome back. PrepMate's user engagement is up by 12% this week. Here is your current platform snapshot.
         </p>
       </section>
 

@@ -8,7 +8,7 @@ interface CTASectionProps {
 }
 
 export default function CTASection({
-  heading = 'Ready to reach your zenith?',
+  heading = 'Ready to start with PrepMate?',
   subtext = 'Join a community of thousands of developers who are choosing clarity over chaos.',
   buttonLabel = 'Create Free Account',
   onAction,
