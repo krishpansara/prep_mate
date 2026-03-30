@@ -61,25 +61,25 @@ export default function InterviewQuestionsPage() {
   return (
     <AppShell>
       {/* Header */}
-      <div className="max-w-5xl mx-auto mb-16 relative">
-        <div className="absolute top-0 right-0 w-80 h-80 bg-accent-600/10 rounded-full blur-[100px] pointer-events-none"></div>
-        <h1 className="font-headline text-5xl md:text-7xl font-black text-white tracking-tighter mb-6">
+      <div className="max-w-5xl mx-auto mb-12 lg:mb-16 relative">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-accent-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-black text-on-surface dark:text-white tracking-tighter mb-4">
           Algorithm Mastery
         </h1>
-        <p className="text-white/70 text-xl max-w-2xl leading-relaxed">
+        <p className="text-on-surface-variant dark:text-white/70 text-base lg:text-lg max-w-2xl leading-relaxed">
           A curated collection of industry-standard coding challenges. Focused, distraction-free, and architected for deep learning.
         </p>
 
         {/* Filter tabs */}
-        <div className="mt-12 flex flex-wrap items-center gap-6 md:gap-10 border-b border-white/10 pb-0">
+        <div className="mt-8 flex flex-wrap items-center gap-4 md:gap-8 border-b border-outline-variant/30 dark:border-white/10 pb-0">
           {tabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setActiveTab(t.key)}
-              className={`pb-4 text-base flex items-center gap-3 border-b-2 transition-all -mb-px ${
+              className={`pb-4 text-sm lg:text-base flex items-center gap-3 border-b-2 transition-all -mb-px ${
                 activeTab === t.key
-                  ? 'border-primary-400 text-primary-400 font-bold'
-                  : 'border-transparent text-white/50 hover:text-white hover:border-white/20 font-medium'
+                  ? 'border-primary-500 dark:border-primary-400 text-primary-600 dark:text-primary-400 font-bold'
+                  : 'border-transparent text-on-surface-variant dark:text-white/50 hover:text-on-surface dark:hover:text-white hover:border-outline-variant dark:hover:border-white/20 font-medium'
               }`}
             >
               {t.dot && <span className={`w-2 h-2 rounded-full ${t.dot}`} />}
@@ -94,22 +94,22 @@ export default function InterviewQuestionsPage() {
         {filtered.map((q) => {
           const isOpen = openId === q.id
           return (
-            <article key={q.id} className="glass-panel hover:bg-white/[0.07] border-white/10 rounded-[2rem] p-8 md:p-10 transition-all duration-300 group">
+            <article key={q.id} className="glass-panel rounded-2xl lg:rounded-[2rem] p-6 lg:p-8 transition-all duration-300 group">
               {/* Card header */}
-              <div className="flex justify-between items-start mb-10">
+              <div className="flex justify-between items-start mb-6 lg:mb-8">
                 <div>
                   <div className="flex items-center gap-4 mb-4">
                     <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-xl ${difficultyColor[q.difficulty]}`}>
                       {q.difficulty}
                     </span>
-                    <span className="text-white/40 text-sm font-medium tracking-wide">Problem #{q.number}</span>
+                    <span className="text-on-surface-variant dark:text-white/40 text-sm font-medium tracking-wide">Problem #{q.number}</span>
                   </div>
-                  <h2 className="font-headline text-3xl md:text-4xl font-extrabold text-white tracking-tight group-hover:text-primary-300 transition-colors">
+                  <h2 className="font-headline text-2xl lg:text-3xl font-extrabold text-on-surface dark:text-white tracking-tight group-hover:text-primary-500 dark:group-hover:text-primary-300 transition-colors">
                     {q.title}
                   </h2>
                 </div>
                 <button
-                  className="p-4 bg-white/5 hover:bg-primary-500/20 text-white/50 hover:text-primary-400 rounded-full transition-all border border-transparent hover:border-primary-500/30"
+                  className="p-3 bg-surface-container dark:bg-white/5 hover:bg-primary-500/20 text-on-surface-variant dark:text-white/50 hover:text-primary-500 dark:hover:text-primary-400 rounded-full transition-all border border-outline-variant/20 dark:border-transparent hover:border-primary-500/30"
                   aria-label="Bookmark"
                 >
                   <Icon name="bookmark" size="sm" />
@@ -119,17 +119,17 @@ export default function InterviewQuestionsPage() {
               {/* Content */}
               <div className="space-y-8">
                 {/* Example */}
-                <div className="p-6 bg-white/5 rounded-2xl border-l-4 border-primary-500 shadow-inner">
-                  <p className="text-sm font-mono text-white/60 italic mb-2">Example: {q.example.input}</p>
-                  <p className="text-sm font-mono text-white font-bold">Output: {q.example.output}</p>
+                <div className="p-4 lg:p-6 bg-surface-container dark:bg-white/5 rounded-xl lg:rounded-2xl border-l-4 border-primary-500 shadow-inner">
+                  <p className="text-sm font-mono text-on-surface-variant dark:text-white/60 italic mb-2">Example: {q.example.input}</p>
+                  <p className="text-sm font-mono text-on-surface dark:text-white font-bold">Output: {q.example.output}</p>
                 </div>
 
                 {/* Concepts */}
                 <div>
-                  <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4">Key Concepts Used</h3>
+                  <h3 className="text-xs font-bold text-on-surface-variant dark:text-white/40 uppercase tracking-widest mb-4">Key Concepts Used</h3>
                   <div className="flex flex-wrap gap-3">
                     {q.concepts.map((c) => (
-                      <span key={c} className="px-5 py-2 bg-white/5 border border-white/10 text-white/70 text-sm font-medium rounded-full shadow-sm hover:bg-white/10 transition-colors cursor-default">
+                      <span key={c} className="px-4 py-1.5 bg-surface-container dark:bg-white/5 border border-outline-variant/20 dark:border-white/10 text-on-surface-variant dark:text-white/70 text-sm font-medium rounded-full shadow-sm hover:bg-surface-container-high dark:hover:bg-white/10 transition-colors cursor-default">
                         {c}
                       </span>
                     ))}
@@ -137,17 +137,17 @@ export default function InterviewQuestionsPage() {
                 </div>
 
                 {/* Expandable solution */}
-                <div className="border-t border-white/10 mt-8">
+                <div className="border-t border-outline-variant/20 dark:border-white/10 mt-6">
                   <button
                     onClick={() => setOpenId(isOpen ? null : q.id)}
                     className="flex items-center justify-between w-full py-6 text-left group/btn"
                     aria-expanded={isOpen}
                   >
-                    <span className="font-bold text-primary-400 flex items-center gap-3 text-lg group-hover/btn:text-primary-300 transition-colors">
+                    <span className="font-bold text-primary-600 dark:text-primary-400 flex items-center gap-3 text-base lg:text-lg group-hover/btn:text-primary-500 dark:group-hover/btn:text-primary-300 transition-colors">
                       <Icon name="auto_awesome" size="sm" />
                       View Editorial Solution
                     </span>
-                    <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center bg-white/5 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-primary-500/20 border-primary-500/30 text-primary-400' : 'text-white/50'}`}>
+                    <div className={`w-8 h-8 rounded-full border border-outline-variant/20 dark:border-white/10 flex items-center justify-center bg-surface-container dark:bg-white/5 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-primary-500/20 border-primary-500/30 text-primary-500 dark:text-primary-400' : 'text-on-surface-variant dark:text-white/50'}`}>
                       <Icon
                         name="expand_more"
                         size="sm"
@@ -185,18 +185,17 @@ export default function InterviewQuestionsPage() {
         })}
 
         {/* Level-up CTA */}
-        <div className="mt-12 relative overflow-hidden rounded-[3rem] h-80 flex items-center justify-center border border-primary-500/30 shadow-[0_0_50px_rgba(59,130,246,0.15)] group cursor-pointer" onClick={() => setActiveTab('medium')}>
+        <div className="mt-12 relative overflow-hidden rounded-2xl lg:rounded-[3rem] h-64 lg:h-80 flex items-center justify-center border border-primary-500/30 shadow-[0_0_50px_rgba(59,130,246,0.15)] group cursor-pointer" onClick={() => setActiveTab('medium')}>
           <div className="absolute inset-0 bg-gradient-to-br from-primary-600/80 to-accent-600/80 group-hover:opacity-90 transition-opacity duration-500" />
-          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 mix-blend-overlay"></div>
           
-          <div className="relative z-10 text-center p-8 scale-95 group-hover:scale-100 transition-transform duration-500">
-            <h3 className="font-headline text-4xl md:text-5xl font-black text-white tracking-tight mb-4 drop-shadow-md">
+          <div className="relative z-10 text-center p-6 lg:p-8 scale-95 group-hover:scale-100 transition-transform duration-500">
+            <h3 className="font-headline text-2xl sm:text-3xl lg:text-4xl font-black text-white tracking-tight mb-3 drop-shadow-md">
               Ready for Medium?
             </h3>
-            <p className="text-white/90 mb-8 text-lg font-medium drop-shadow-sm">
+            <p className="text-white/90 mb-6 text-base lg:text-lg font-medium drop-shadow-sm">
               You've mastered the basics. Level up your system thinking.
             </p>
-            <div className="inline-block px-10 py-4 bg-white text-primary-600 rounded-full font-bold shadow-2xl group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition-all">
+            <div className="inline-block px-8 py-3 bg-white text-primary-600 rounded-full font-bold shadow-2xl group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition-all">
               Browse Medium Challenges
             </div>
           </div>

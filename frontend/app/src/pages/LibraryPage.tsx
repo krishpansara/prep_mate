@@ -60,10 +60,10 @@ export default function LibraryPage() {
     <div className="min-h-screen bg-background relative flex flex-col font-sans">
       <Navbar showSearch={false} />
 
-      <main className="flex-1 w-full max-w-[1200px] mx-auto px-6 py-12 lg:py-16">
-        <header className="mb-12 max-w-2xl">
-          <h1 className="text-[3rem] font-bold font-headline text-on-surface mb-4 tracking-tight">The Library</h1>
-          <p className="text-xl text-on-surface-variant leading-relaxed">
+      <main className="flex-1 w-full max-w-[1200px] mx-auto px-6 py-8 lg:py-16">
+        <header className="mb-10 lg:mb-12 max-w-2xl">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold font-headline text-on-surface mb-4 tracking-tight">The Library</h1>
+          <p className="text-base lg:text-lg text-on-surface-variant leading-relaxed">
             A curated collection of curriculum paths designed for absolute technical mastery. 
             Choose a domain to begin your deep work session.
           </p>

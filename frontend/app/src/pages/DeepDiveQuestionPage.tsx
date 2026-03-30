@@ -39,45 +39,45 @@ const diffMap: Record<DeepDiveQuestion['difficulty'], 'secondary' | 'neutral' | 
 export default function DeepDiveQuestionPage() {
   return (
     <AppShell>
-      <div className="max-w-4xl mx-auto py-12 relative">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+      <div className="max-w-4xl mx-auto py-8 lg:py-12 relative">
+        <div className="absolute top-0 right-0 w-72 h-72 bg-primary-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
         {/* Header */}
-        <header className="mb-16 relative z-10 animate-slide-up">
-          <Badge label="Deep Dive" variant="primary" uppercase className="mb-8 shadow-[0_0_15px_rgba(59,130,246,0.3)]" />
-          <h1 className="font-headline text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-on-surface to-on-surface-variant dark:from-white dark:to-white/70 tracking-tighter mb-6">
+        <header className="mb-12 lg:mb-16 relative z-10 animate-slide-up">
+          <Badge label="Deep Dive" variant="primary" uppercase className="mb-6 shadow-[0_0_15px_rgba(59,130,246,0.3)]" />
+          <h1 className="font-headline text-3xl sm:text-4xl lg:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-on-surface to-on-surface-variant dark:from-white dark:to-white/70 tracking-tighter mb-4">
             Behavioral Deep Dive
           </h1>
-          <p className="text-xl text-on-surface-variant dark:text-white/70 leading-relaxed max-w-2xl font-body">
+          <p className="text-base lg:text-lg text-on-surface-variant dark:text-white/70 leading-relaxed max-w-2xl font-body">
             Master the "why" and "when", not just the "what". These questions test your ability to reason aloud under pressure — like a real senior engineer interview.
           </p>
         </header>
 
         {/* Questions */}
-        <div className="space-y-16 relative z-10">
+        <div className="space-y-12 lg:space-y-16 relative z-10">
           {questions.map((q, i) => (
             <article key={q.id} className="group animate-fade-in" style={{ animationDelay: `${0.2 + i * 0.1}s` }}>
               {/* Question number + difficulty */}
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center font-mono font-bold text-primary-600 dark:text-primary-400 text-lg flex-shrink-0 shadow-inner group-hover:bg-primary-50 dark:group-hover:bg-primary-500/10 transition-colors">
+                <div className="w-12 h-12 lg:w-14 lg:h-14 rounded-xl lg:rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center font-mono font-bold text-primary-600 dark:text-primary-400 text-lg flex-shrink-0 shadow-inner group-hover:bg-primary-50 dark:group-hover:bg-primary-500/10 transition-colors">
                   {q.number}
                 </div>
                 <Badge label={q.difficulty} variant={diffMap[q.difficulty]} uppercase />
               </div>
 
               {/* Question */}
-              <h2 className="text-3xl font-black font-headline text-on-surface dark:text-white mb-8 leading-snug tracking-tight">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-black font-headline text-on-surface dark:text-white mb-6 leading-snug tracking-tight">
                 {q.question}
               </h2>
 
               {/* Answer Box */}
-              <div className="bg-white dark:bg-surface/40 backdrop-blur-md rounded-3xl p-8 md:p-10 border border-slate-200 dark:border-white/5 shadow-md dark:shadow-xl relative overflow-hidden">
+              <div className="bg-white dark:bg-surface/40 backdrop-blur-md rounded-2xl lg:rounded-3xl p-6 lg:p-8 border border-slate-200 dark:border-white/5 shadow-md dark:shadow-xl relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-primary-500 to-accent-500"></div>
                 <div className="flex items-center gap-3 mb-6">
                   <div className="w-8 h-8 rounded-full bg-primary-500/10 dark:bg-primary-500/20 text-primary-600 dark:text-primary-400 flex items-center justify-center"><Icon name="psychology" size="sm" /></div>
                   <span className="text-sm font-bold uppercase tracking-widest text-primary-600 dark:text-primary-200">Model Answer</span>
                 </div>
-                <p className="text-on-surface-variant dark:text-white/90 text-lg leading-relaxed font-body">{q.answer}</p>
+                <p className="text-on-surface-variant dark:text-white/90 text-sm lg:text-base leading-relaxed font-body">{q.answer}</p>
               </div>
 
               {/* Framework hint */}
@@ -102,14 +102,14 @@ export default function DeepDiveQuestionPage() {
         </div>
 
         {/* Progress CTA */}
-        <div className="mt-24 glass-panel-heavy rounded-3xl p-12 text-center border-primary-500/20 dark:border-primary-500/30 shadow-lg dark:shadow-[0_0_40px_rgba(59,130,246,0.1)] relative overflow-hidden group">
+        <div className="mt-16 lg:mt-24 glass-panel-heavy rounded-2xl lg:rounded-3xl p-8 lg:p-12 text-center border-primary-500/20 dark:border-primary-500/30 shadow-lg dark:shadow-[0_0_40px_rgba(59,130,246,0.1)] relative overflow-hidden group">
           <div className="absolute inset-0 bg-gradient-to-t from-primary-600/5 dark:from-primary-600/10 to-transparent pointer-events-none"></div>
           <p className="text-xs uppercase tracking-widest text-primary-600 dark:text-primary-300 font-bold mb-4">Session Complete</p>
-          <h3 className="text-4xl font-black font-headline text-on-surface dark:text-white mb-6">Great depth, Zen.</h3>
-          <p className="text-on-surface-variant dark:text-white/70 mb-10 max-w-md mx-auto text-lg">
+          <h3 className="text-2xl lg:text-3xl font-black font-headline text-on-surface dark:text-white mb-4">Great depth, Zen.</h3>
+          <p className="text-on-surface-variant dark:text-white/70 mb-8 max-w-md mx-auto text-base">
             You reasoned through 3 Deep Dive questions. Ready to test your speed with the next module?
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-6 relative z-10">
+          <div className="flex flex-col sm:flex-row justify-center gap-4 relative z-10">
             <Button variant="primary" size="lg" className="px-10 shadow-[0_0_15px_rgba(59,130,246,0.3)] dark:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
               Next Module
             </Button>

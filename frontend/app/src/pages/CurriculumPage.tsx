@@ -118,15 +118,15 @@ export default function CurriculumPage() {
           <Icon name="arrow_back" size="sm" className="mr-2" /> Back to Library
         </button>
 
-        <header className="mb-16 max-w-2xl">
+        <header className="mb-16">
           <div className="flex items-center gap-4 mb-4">
             <span className="text-secondary tracking-widest uppercase text-xs font-bold font-headline">{courseData.subtitle}</span>
             <div className="h-px bg-outline-variant/30 flex-1 ml-4" />
           </div>
-          <h1 className="text-[3.5rem] font-extrabold font-headline text-on-surface leading-tight tracking-tight mb-6">
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold font-headline text-on-surface leading-tight tracking-tight mb-6">
             {courseData.title}
           </h1>
-          <p className="text-xl text-on-surface-variant leading-relaxed">
+          <p className="text-lg lg:text-xl text-on-surface-variant leading-relaxed max-w-2xl">
             {courseData.description}
           </p>
         </header>
