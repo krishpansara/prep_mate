@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import AppShell from '@components/layout/AppShell'
 import Icon from '@components/ui/Icon'
 import Badge from '@components/ui/Badge'
@@ -38,6 +39,7 @@ const concepts: Concept[] = [
 const completedCount = concepts.filter((c) => c.completed).length
 
 export default function LearningConceptsPage() {
+  const navigate = useNavigate()
   return (
     <AppShell>
       <div className="max-w-4xl mx-auto py-12 relative">
@@ -82,7 +84,8 @@ export default function LearningConceptsPage() {
           {concepts.map((concept, index) => (
             <article
               key={concept.id}
-              className={`rounded-3xl border transition-all duration-500 group overflow-hidden relative ${
+              onClick={() => navigate('/deep-dive')}
+              className={`rounded-2xl border transition-all duration-500 group overflow-hidden relative ${
                 concept.completed
                   ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.05]'
                   : 'bg-white/[0.05] border-primary-500/30 hover:border-primary-400 shadow-[0_0_30px_rgba(59,130,246,0.1)] hover:shadow-[0_0_40px_rgba(59,130,246,0.2)]'
@@ -170,7 +173,10 @@ export default function LearningConceptsPage() {
             <p className="text-white/70 mb-10 text-lg max-w-lg mx-auto leading-relaxed">
               Apply what you've learned with curated interview questions for this topic.
             </p>
-            <button className="px-10 py-4 bg-white text-primary-600 rounded-full font-bold hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition-all scale-100 hover:scale-105 active:scale-95 text-lg">
+            <button 
+              onClick={() => navigate('/deep-dive')}
+              className="px-8 py-3 bg-surface text-on-surface rounded-2xl font-bold hover:bg-primary-container hover:text-on-primary-container transition-colors"
+            >
               Start Practice Questions
             </button>
           </div>

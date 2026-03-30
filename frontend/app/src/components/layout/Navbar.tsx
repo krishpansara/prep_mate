@@ -13,9 +13,11 @@ interface NavbarProps {
 }
 
 const defaultNavLinks: NavItem[] = [
-  { label: 'Practice', href: '/dashboard', isActive: true },
-  { label: 'Insights', href: '/analytics' },
-  { label: 'Community', href: '#' },
+  { label: 'Home', href: '/#' },
+  { label: 'Library', href: '/library' },
+  // { label: 'Course', href: '/deep-dive' },
+  { label: 'Practice', href: '/practice' },
+  { label: 'Community', href: '/community' },
 ]
 
 export default function Navbar({
