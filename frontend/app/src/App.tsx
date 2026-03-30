@@ -12,6 +12,8 @@ const InterviewQuestionsPage = lazy(() => import('@pages/InterviewQuestionsPage'
 const TopicPagePython = lazy(() => import('@pages/TopicPagePython'))
 const DeepDiveQuestionPage = lazy(() => import('@pages/DeepDiveQuestionPage'))
 const LearningConceptsPage = lazy(() => import('@pages/LearningConceptsPage'))
+const LibraryPage = lazy(() => import('@pages/LibraryPage'))
+const CurriculumPage = lazy(() => import('@pages/CurriculumPage'))
 
 // Admin pages
 const AdminDashboardPage = lazy(() => import('@pages/admin/AdminDashboardPage'))
@@ -34,6 +36,8 @@ export default function App() {
           <Route path="/" element={<LandingPage />} />
 
           {/* Learner app */}
+          <Route path="/library" element={<LibraryPage />} />
+          <Route path="/library/:courseId" element={<CurriculumPage />} />
           <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/practice" element={<InterviewQuestionsPage />} />
           <Route path="/topics/python" element={<TopicPagePython />} />
