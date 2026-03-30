@@ -34,14 +34,14 @@ const defaultTestimonial: Testimonial = {
 }
 
 const defaultStats: StatItem[] = [
-  { icon: 'verified', label: '10,000+ Success Stories', iconColor: 'text-secondary' },
-  { icon: 'auto_awesome', label: 'Curated by FAANG Mentors', iconColor: 'text-primary' },
+  { icon: 'verified', label: '10,000+ Success Stories', iconColor: 'text-accent-400' },
+  { icon: 'auto_awesome', label: 'Curated by FAANG Mentors', iconColor: 'text-primary-400' },
 ]
 
 const colorDotMap: Record<FeatureItem['color'], string> = {
-  primary: 'bg-primary ring-4 ring-primary-container',
-  secondary: 'bg-secondary ring-4 ring-secondary-container',
-  neutral: 'bg-on-surface ring-4 bg-surface-container',
+  primary: 'bg-primary-500 shadow-[0_0_15px_rgba(59,130,246,0.6)]',
+  secondary: 'bg-accent-500 shadow-[0_0_15px_rgba(168,85,247,0.6)]',
+  neutral: 'bg-[rgb(234,123,168)] shadow-[0_0_15px_rgba(234,123,168,0.4)]',
 }
 
 export default function WhySection({
@@ -51,26 +51,26 @@ export default function WhySection({
   stats = defaultStats,
 }: WhySectionProps) {
   return (
-    <section className="py-32 px-6 lg:px-8 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24">
+    <section className="py-32 px-6 lg:px-8 relative overflow-hidden">
+      <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-24 relative z-10">
         {/* Left: sticky feature rail */}
         <div className="relative">
           <div className="sticky top-32">
-            <h2 className="text-5xl md:text-6xl font-black tracking-tight leading-tight mb-8 font-headline whitespace-pre-line">
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter leading-tight mb-12 font-headline whitespace-pre-line text-transparent bg-clip-text bg-gradient-to-br from-primary-950 to-primary-800/80 dark:from-white dark:to-white/60">
               {heading}
             </h2>
             <div className="space-y-12">
               {features.map((feature, index) => (
                 <div key={feature.title} className="flex gap-8 group">
-                  <div className="flex flex-col items-center">
+                  <div className="flex flex-col items-center mt-2">
                     <div className={`w-4 h-4 rounded-full ${colorDotMap[feature.color]}`} />
-                    {index < features.length - 1 && (
-                      <div className="w-1 flex-1 bg-surface-container-highest mt-2 mb-2 group-hover:bg-primary/30 transition-colors" />
+                    {index < features.length && (
+                      <div className="w-0.5 flex-1 bg-gradient-to-b from-slate-300 dark:from-white/20 to-transparent my-4 group-hover:from-primary-400/60 dark:group-hover:from-primary-500/50 transition-all duration-500" />
                     )}
                   </div>
                   <div className="pb-8">
-                    <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                    <p className="text-on-surface-variant leading-relaxed max-w-sm">{feature.description}</p>
+                    <h3 className="text-2xl font-bold mb-3 text-on-surface dark:text-white tracking-tight">{feature.title}</h3>
+                    <p className="text-on-surface-variant leading-relaxed text-lg max-w-sm">{feature.description}</p>
                   </div>
                 </div>
               ))}
@@ -79,16 +79,19 @@ export default function WhySection({
         </div>
 
         {/* Right: testimonial + stats */}
-        <div className="grid grid-cols-1 gap-8">
-          <div className="bg-surface-container p-1 rounded-3xl overflow-hidden shadow-2xl">
-            <div className="bg-surface-container-lowest p-10 rounded-[1.4rem]">
+        <div className="grid grid-cols-1 gap-8 items-center">
+          <div className="glass-panel-heavy rounded-[2rem] p-1 border border-outline-variant/30 dark:border-white/10 shadow-2xl relative overflow-hidden group">
+            <div className="absolute inset-0 bg-gradient-to-br from-primary-500/10 via-transparent to-accent-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700"></div>
+            
+            <div className="bg-surface/60 backdrop-blur-xl p-10 md:p-14 rounded-[1.8rem] relative z-10">
               {/* Testimonial */}
-              <div className="mb-10 p-6 bg-surface-container-low rounded-xl border-l-4 border-primary">
-                <p className="text-on-surface italic text-lg leading-relaxed font-body">
+              <div className="mb-12 relative">
+                <Icon name="format_quote" className="text-primary-500/20 absolute -top-10 -left-6 !text-8xl" />
+                <p className="text-on-surface dark:text-white italic text-xl md:text-2xl leading-relaxed font-body relative z-10 font-medium">
                   {testimonial.quote}
                 </p>
-                <div className="mt-6 flex items-center gap-4">
-                  <div className="w-12 h-12 rounded-full overflow-hidden bg-surface-dim flex-shrink-0">
+                <div className="mt-10 flex items-center gap-5">
+                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-primary-500/30 flex-shrink-0">
                     <img
                       src={testimonial.avatarUrl}
                       alt={testimonial.author}
@@ -97,24 +100,26 @@ export default function WhySection({
                     />
                   </div>
                   <div>
-                    <p className="font-bold text-on-surface">{testimonial.author}</p>
-                    <p className="text-sm text-on-surface-variant">{testimonial.role}</p>
+                    <p className="font-bold text-on-surface dark:text-white text-lg">{testimonial.author}</p>
+                    <p className="text-primary-400 font-medium">{testimonial.role}</p>
                   </div>
                 </div>
               </div>
 
               {/* Stats */}
-              <div className="space-y-2">
+              <div className="space-y-4 pt-8 border-t border-slate-200/70 dark:border-white/10">
                 {stats.map((stat) => (
                   <div
                     key={stat.label}
-                    className="flex items-center justify-between p-4 rounded-xl hover:bg-surface-container-low transition-colors"
+                    className="flex items-center justify-between p-5 rounded-2xl bg-surface-container border border-slate-200 dark:bg-white/5 dark:border-white/5 hover:border-primary-300 dark:hover:border-primary-500/30 dark:hover:bg-white/10 transition-all duration-300"
                   >
                     <div className="flex items-center gap-4">
-                      <Icon name={stat.icon} className={stat.iconColor ?? 'text-primary'} size="sm" />
-                      <span className="font-medium">{stat.label}</span>
+                      <div className="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center">
+                         <Icon name={stat.icon} className={stat.iconColor} size="sm" />
+                      </div>
+                      <span className="font-semibold text-on-surface dark:text-white tracking-wide">{stat.label}</span>
                     </div>
-                    <Icon name="chevron_right" className="text-on-surface-variant" size="sm" />
+                    <Icon name="chevron_right" className="text-on-surface-variant dark:text-white/30" size="sm" />
                   </div>
                 ))}
               </div>

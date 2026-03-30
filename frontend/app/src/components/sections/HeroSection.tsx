@@ -1,6 +1,4 @@
 import Button from '@components/ui/Button'
-import Badge from '@components/ui/Badge'
-import GlassCard from '@components/ui/GlassCard'
 
 interface HeroSectionProps {
   badge?: string
@@ -13,7 +11,6 @@ interface HeroSectionProps {
   onSecondaryClick?: () => void
   imageSrc?: string
   imageAlt?: string
-  statusText?: string
 }
 
 export default function HeroSection({
@@ -25,59 +22,50 @@ export default function HeroSection({
   secondaryCTA = 'View Syllabus',
   onPrimaryClick,
   onSecondaryClick,
-  imageSrc = 'https://images.unsplash.com/photo-1537432376769-00f5c2f4c8d2?w=400&q=60',
+  imageSrc = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=800&q=80&fm=webp', // Updated to a sleeker coding image
   imageAlt = 'Minimalist developer workspace',
-  statusText = 'Deep Work Session: Active',
 }: HeroSectionProps) {
   return (
-    <section className="relative pt-24 pb-32 px-6 lg:px-8 overflow-hidden">
-      <div className="max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+    <section className="relative pt-32 pb-40 px-6 lg:px-8 overflow-hidden min-h-[90vh] flex items-center">
+      <div className="relative z-10 max-w-[1440px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
         {/* Text content */}
-        <div className="lg:col-span-7 space-y-8">
-          <Badge label={badge} variant="secondary" uppercase />
+        <div className="lg:col-span-7 space-y-8 animate-slide-up">
+          <div className="inline-block rounded-full px-4 py-1 border border-primary-500/30 bg-primary-500/10 text-primary-600 dark:text-primary-300 text-sm font-semibold tracking-wide backdrop-blur-md">
+            ✨ {badge}
+          </div>
 
-          <h1 className="text-6xl md:text-8xl font-extrabold leading-[1.05] tracking-tighter text-on-surface font-headline">
+          <h1 className="text-6xl md:text-8xl font-black leading-[1.05] tracking-tighter text-on-surface dark:text-white font-headline">
             {heading}
             <br />
-            <span className="text-primary italic">{headingAccent}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600 dark:from-primary-400 dark:to-accent-400">
+              {headingAccent}
+            </span>
           </h1>
 
-          <p className="text-xl md:text-2xl text-on-surface-variant max-w-xl leading-relaxed font-body">
+          <p className="text-xl md:text-2xl text-on-surface-variant max-w-2xl leading-relaxed font-body">
             {subheading}
           </p>
 
-          <div className="flex flex-wrap gap-4 pt-4">
-            <Button variant="primary" size="lg" onClick={onPrimaryClick}>
+          <div className="flex flex-wrap gap-6 pt-6">
+            <Button variant="primary" size="lg" onClick={onPrimaryClick} className="shadow-[0_0_20px_rgba(59,130,246,0.3)] dark:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
               {primaryCTA}
             </Button>
-            <Button variant="secondary" size="lg" onClick={onSecondaryClick}>
+            <Button variant="ghost" size="lg" onClick={onSecondaryClick} icon="arrow_forward">
               {secondaryCTA}
             </Button>
           </div>
         </div>
 
         {/* Image column */}
-        <div className="lg:col-span-5 relative">
-          {/* Decorative blur blob */}
-          <div className="absolute -top-12 -right-12 w-64 h-64 bg-primary/5 rounded-full blur-3xl -z-10" />
-
-          <div className="aspect-square bg-surface-container-high rounded-[2rem] overflow-hidden rotate-3 shadow-2xl relative z-10">
+        <div className="lg:col-span-5 relative animate-fade-in" style={{ animationDelay: '0.3s' }}>
+          <div className="aspect-[4/5] md:aspect-square bg-surface border border-outline-variant/50 dark:border-white/10 rounded-3xl overflow-hidden shadow-2xl relative z-10 group">
             <img
               src={imageSrc}
               alt={imageAlt}
-              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 dark:opacity-80 group-hover:opacity-100"
             />
-
-            {/* Glassmorphic status overlay */}
-            <GlassCard className="absolute bottom-6 left-6 right-6 p-6">
-              <div className="flex items-center gap-3 mb-2">
-                <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" />
-                <span className="text-xs font-bold tracking-widest text-on-surface-variant uppercase">
-                  Current Status
-                </span>
-              </div>
-              <p className="text-on-surface font-headline font-bold">{statusText}</p>
-            </GlassCard>
+            {/* Elegant overlay gradient */}
+            <div className="absolute inset-0 bg-gradient-to-t from-surface dark:from-[#030712] via-transparent to-transparent opacity-80"></div>
           </div>
         </div>
       </div>
