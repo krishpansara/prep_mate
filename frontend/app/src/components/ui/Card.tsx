@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 
-type CardVariant = 'default' | 'elevated' | 'glass' | 'ghost'
+type CardVariant = 'default' | 'elevated' | 'glass' | 'ghost' | 'surface-low' | 'dark'
 type CardPadding = 'none' | 'sm' | 'md' | 'lg' | 'xl'
 
 interface CardProps {
@@ -27,6 +27,14 @@ const variantClasses: Record<CardVariant, string> = {
     'dark:bg-[#1E1E1E]/80 dark:border-white/[0.06] dark:shadow-card-dark',
   ].join(' '),
   ghost: 'bg-transparent border border-slate-200 dark:border-white/[0.06]',
+  'surface-low': [
+    'bg-slate-50 border border-slate-200 shadow-sm',
+    'dark:bg-[#1E1E1E] dark:border dark:border-white/[0.06] dark:shadow-card-dark',
+  ].join(' '),
+  dark: [
+    'bg-slate-900 border border-slate-700 text-white shadow-card-light',
+    'dark:bg-[#1A1A2E] dark:border dark:border-white/[0.08] dark:shadow-card-dark',
+  ].join(' '),
 }
 
 const paddingClasses: Record<CardPadding, string> = {

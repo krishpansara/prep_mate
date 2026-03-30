@@ -15,6 +15,7 @@ interface ButtonProps {
   type?: 'button' | 'submit' | 'reset'
   onClick?: () => void
   className?: string
+  fullWidth?: boolean
 }
 
 const base = [
@@ -86,8 +87,9 @@ export default function Button({
   type = 'button',
   onClick,
   className = '',
+  fullWidth = false,
 }: ButtonProps) {
-  const classes = [base, variants[variant], sizes[size], className].filter(Boolean).join(' ')
+  const classes = [base, variants[variant], sizes[size], fullWidth ? 'w-full' : '', className].filter(Boolean).join(' ')
 
   return (
     <button
