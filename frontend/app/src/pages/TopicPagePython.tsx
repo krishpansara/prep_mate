@@ -22,8 +22,8 @@ const sections: Section[] = [
       quote: '"Beautiful is better than ugly. Explicit is better than implicit. Simple is better than complex."',
     },
     callouts: [
-      { icon: 'bolt', iconColor: 'text-secondary', title: 'Rapid Prototyping', desc: 'Go from concept to working prototype in hours, not days.' },
-      { icon: 'hub', iconColor: 'text-primary', title: 'Massive Ecosystem', desc: 'Over 300,000 packages available via PyPI for every imaginable task.' },
+      { icon: 'bolt', iconColor: 'text-accent-400', title: 'Rapid Prototyping', desc: 'Go from concept to working prototype in hours, not days.' },
+      { icon: 'hub', iconColor: 'text-primary-400', title: 'Massive Ecosystem', desc: 'Over 300,000 packages available via PyPI for every imaginable task.' },
     ],
   },
   {
@@ -43,37 +43,39 @@ export default function TopicPagePython() {
   return (
     <AppShell>
       {/* Progress rail under navbar */}
-      <div className="absolute top-0 left-0 w-full h-0.5 bg-surface-variant pointer-events-none">
-        <div className="h-full bg-gradient-to-r from-primary to-secondary w-[35%]" />
+      <div className="fixed top-[72px] left-0 w-full h-[3px] bg-white/10 z-40">
+        <div className="h-full bg-gradient-to-r from-primary-500 to-accent-500 w-[35%] shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
       </div>
 
-      <div className="flex min-h-screen">
+      <div className="flex min-h-screen relative">
+        <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-primary-900/20 to-transparent pointer-events-none"></div>
+
         {/* Main reader */}
-        <main className="flex-1 min-w-0">
-          <div className="max-w-[720px] mx-auto px-6 py-16 md:py-24">
+        <main className="flex-1 min-w-0 relative z-10">
+          <div className="max-w-[760px] mx-auto px-6 py-16 md:py-24">
             {/* Topic header */}
-            <header className="mb-12">
-              <div className="flex items-center gap-3 text-primary font-semibold mb-4 tracking-tight">
-                <span className="px-2 py-1 bg-primary-container/40 rounded-xl text-xs">Module 01</span>
-                <span className="text-on-surface-variant/40">•</span>
-                <span className="text-sm">15 min read</span>
+            <header className="mb-16">
+              <div className="flex items-center gap-4 text-primary-300 font-bold mb-6 tracking-wide uppercase text-xs">
+                <span className="px-3 py-1 bg-primary-500/20 border border-primary-500/30 text-primary-300 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.3)]">Module 01</span>
+                <span className="text-white/20">•</span>
+                <span className="text-white/50">15 min read</span>
               </div>
-              <h1 className="text-5xl md:text-6xl font-extrabold text-on-surface leading-[1.1] tracking-tight mb-8 font-headline">
+              <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.05] tracking-tighter mb-8 font-headline drop-shadow-lg">
                 Introduction to Python
               </h1>
-              <div className="flex items-center gap-4 py-6 border-y border-outline-variant/10">
-                <div className="w-12 h-12 rounded-full bg-primary-container flex items-center justify-center flex-shrink-0">
-                  <Icon name="person" className="text-on-primary-container" size="sm" />
+              <div className="flex items-center gap-5 py-8 border-y border-white/10 mt-10">
+                <div className="w-14 h-14 rounded-full bg-white/5 border border-white/20 flex items-center justify-center flex-shrink-0 shadow-inner">
+                  <Icon name="person" className="text-white/70" size="md" />
                 </div>
                 <div className="flex-1">
-                  <div className="font-bold text-on-surface">Alex Rivera</div>
-                  <div className="text-sm text-on-surface-variant">Senior Architect @ Python Core</div>
+                  <div className="font-bold text-white text-lg">Alex Rivera</div>
+                  <div className="text-sm text-primary-400 font-medium">Senior Architect @ Python Core</div>
                 </div>
-                <div className="flex gap-2">
-                  <button className="p-2 text-on-surface-variant hover:text-primary transition-colors" aria-label="Bookmark">
+                <div className="flex gap-3">
+                  <button className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all shadow-sm" aria-label="Bookmark">
                     <Icon name="bookmark_add" size="sm" />
                   </button>
-                  <button className="p-2 text-on-surface-variant hover:text-primary transition-colors" aria-label="Share">
+                  <button className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all shadow-sm" aria-label="Share">
                     <Icon name="share" size="sm" />
                   </button>
                 </div>
@@ -81,47 +83,53 @@ export default function TopicPagePython() {
             </header>
 
             {/* Article sections */}
-            <article className="space-y-10 text-lg leading-relaxed text-on-surface-variant font-body">
+            <article className="space-y-16 text-[1.15rem] leading-[1.8] text-white/80 font-body">
               {sections.map((section) => (
                 <section key={section.id} id={section.id}>
-                  <h2 className="text-3xl font-bold text-on-surface tracking-tight pt-4 mb-4 font-headline">
+                  <h2 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70 tracking-tight pt-4 mb-6 font-headline">
                     {section.title}
                   </h2>
-                  <p>{section.content}</p>
+                  <p className="opacity-90">{section.content}</p>
 
                   {section.highlight && (
-                    <div className="my-10 p-8 bg-surface-container-low rounded-2xl border-l-4 border-secondary shadow-sm">
-                      <h3 className="text-xl font-bold text-on-surface mb-2">{section.highlight.label}</h3>
-                      <p className="italic text-on-surface-variant">{section.highlight.quote}</p>
+                    <div className="my-12 p-10 bg-white/5 rounded-[2rem] border-l-4 border-l-accent-400 border border-white/5 shadow-2xl relative overflow-hidden">
+                      <div className="absolute top-0 right-0 p-4 opacity-10">
+                         <Icon name="format_quote" className="!text-[120px]" />
+                      </div>
+                      <h3 className="text-lg font-bold text-accent-400 mb-4 tracking-widest uppercase relative z-10">{section.highlight.label}</h3>
+                      <p className="italic text-white text-2xl font-medium leading-relaxed relative z-10">{section.highlight.quote}</p>
                     </div>
                   )}
 
                   {section.codeExample && (
-                    <div className="my-10 overflow-hidden rounded-2xl shadow-xl shadow-on-surface/5">
+                    <div className="my-12 overflow-hidden rounded-[2rem] border border-white/10 shadow-[0_0_40px_rgba(0,0,0,0.5)]">
                       {/* Mac-style header */}
-                      <div className="bg-on-surface px-6 py-3 flex items-center justify-between">
+                      <div className="bg-[#0f1524] px-6 py-4 flex items-center justify-between border-b border-white/5">
                         <div className="flex gap-2">
-                          {['#e06c75', '#98c379', '#61afef'].map((c) => (
-                            <div key={c} className="w-3 h-3 rounded-full" style={{ background: c }} aria-hidden="true" />
+                          {['#ff5f56', '#ffbd2e', '#27c93f'].map((c) => (
+                            <div key={c} className="w-3.5 h-3.5 rounded-full" style={{ background: c }} aria-hidden="true" />
                           ))}
                         </div>
-                        <span className="text-xs font-mono text-surface-variant/50 uppercase tracking-widest">
+                        <span className="text-xs font-mono text-white/40 uppercase tracking-widest">
                           {section.codeExample.filename}
                         </span>
                       </div>
-                      <div className="bg-surface-container-highest p-8 text-sm leading-relaxed overflow-x-auto">
-                        <pre className="font-mono whitespace-pre text-on-surface">{section.codeExample.code}</pre>
+                      <div className="bg-[#050914] p-8 text-sm leading-loose overflow-x-auto relative">
+                        <div className="absolute top-0 left-0 w-full h-full bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-20"></div>
+                        <pre className="font-mono whitespace-pre text-accent-100 relative z-10">{section.codeExample.code}</pre>
                       </div>
                     </div>
                   )}
 
                   {section.callouts && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 my-16">
                       {section.callouts.map((c) => (
-                        <Card key={c.title} hover>
-                          <Icon name={c.icon} className={`${c.iconColor} mb-4`} size="lg" />
-                          <h4 className="font-bold text-on-surface mb-2">{c.title}</h4>
-                          <p className="text-sm">{c.desc}</p>
+                        <Card key={c.title} variant="default" hover className="!p-8 group shadow-lg">
+                          <div className={`w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                             <Icon name={c.icon} className={c.iconColor} size="md" />
+                          </div>
+                          <h4 className="font-bold text-white text-xl mb-3 font-headline">{c.title}</h4>
+                          <p className="text-white/60 text-base">{c.desc}</p>
                         </Card>
                       ))}
                     </div>
@@ -131,46 +139,51 @@ export default function TopicPagePython() {
             </article>
 
             {/* Footer nav */}
-            <footer className="mt-20 pt-12 border-t border-outline-variant/20 flex flex-col md:flex-row justify-between items-center gap-8">
+            <footer className="mt-24 pt-16 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-8">
               <div>
-                <span className="text-xs font-semibold text-on-surface-variant uppercase tracking-widest opacity-60">
+                <span className="text-xs font-bold text-primary-400 uppercase tracking-widest">
                   Next Lesson
                 </span>
-                <a href="#" className="block text-xl font-bold text-primary hover:underline mt-1">
-                  Variables &amp; Dynamic Typing →
+                <a href="#" className="flex items-center gap-3 text-3xl font-black text-white hover:text-primary-300 transition-colors mt-2 font-headline group">
+                  Variables &amp; Dynamic Typing
+                  <Icon name="arrow_forward" size="md" className="group-hover:translate-x-2 transition-transform" />
                 </a>
               </div>
-              <Button variant="secondary" size="md" icon="check" iconPosition="left">
-                Mark as Completed
+              <Button variant="primary" size="lg" icon="check" iconPosition="left" className="px-8 shadow-[0_0_20px_rgba(59,130,246,0.3)]">
+                Mark Completed
               </Button>
             </footer>
           </div>
         </main>
 
         {/* Right TOC sidebar — xl+ */}
-        <aside className="hidden xl:block w-72 sticky top-16 h-[calc(100vh-4rem)] p-8 border-l border-outline-variant/5 flex-shrink-0">
-          <h5 className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-6 opacity-60">
+        <aside className="hidden xl:block w-80 sticky top-[72px] h-[calc(100vh-72px)] p-10 border-l border-white/10 flex-shrink-0 bg-background/50 backdrop-blur-3xl">
+          <h5 className="text-xs font-black text-white/40 uppercase tracking-widest mb-10">
             On this page
           </h5>
-          <nav className="flex flex-col gap-4 relative">
+          <nav className="flex flex-col gap-5 relative">
             {/* Rail */}
-            <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-surface-variant">
-              <div className="absolute top-0 left-0 w-full bg-secondary h-16 rounded-full shadow-sm" />
+            <div className="absolute left-0 top-0 bottom-0 w-[2px] bg-white/5 rounded-full">
+              <div className="absolute top-0 left-0 w-full bg-primary-500 h-16 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.8)]" />
             </div>
             {tocItems.map((item, i) => (
               <a
                 key={item}
                 href={`#${item.toLowerCase().replace(/\s+/g, '-')}`}
-                className={`pl-6 text-sm transition-colors ${i === 0 ? 'text-on-surface font-semibold' : 'text-on-surface-variant hover:text-on-surface'}`}
+                className={`pl-8 text-sm transition-all ${i === 0 ? 'text-white font-bold tracking-wide' : 'text-white/50 hover:text-white hover:translate-x-1'}`}
               >
                 {item}
               </a>
             ))}
           </nav>
-          <div className="mt-12 p-6 bg-primary-container/30 rounded-2xl">
-            <Icon name="lightbulb" className="text-primary mb-2" size="sm" filled />
-            <p className="text-xs leading-relaxed text-on-primary-container/80">
-              <strong>Tip:</strong> Python 3.10+ introduced structural pattern matching — a game changer for complex conditional logic!
+
+          <div className="mt-16 p-6 bg-accent-500/10 rounded-2xl border border-accent-500/20 backdrop-blur-md shadow-inner">
+            <div className="flex items-center gap-3 mb-3">
+              <Icon name="lightbulb" className="text-accent-400" size="sm" filled />
+              <span className="text-xs font-bold uppercase tracking-widest text-accent-300">Pro Tip</span>
+            </div>
+            <p className="text-sm leading-relaxed text-white/80">
+              Python 3.10+ introduced structural pattern matching — a game changer for complex conditional logic!
             </p>
           </div>
         </aside>

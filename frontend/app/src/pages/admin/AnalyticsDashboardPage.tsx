@@ -42,7 +42,7 @@ export default function AnalyticsDashboardPage() {
       {/* Top metrics */}
       <section className="grid grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         {topMetrics.map((m) => (
-          <div key={m.label} className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm">
+          <div key={m.label} className="bg-surface-container-lowest p-6 rounded-2xl border border-outline-variant/10 shadow-sm hover-card-premium">
             <div className="flex items-center justify-between mb-4">
               <div className="p-2 bg-primary/10 rounded-xl text-primary">
                 <Icon name={m.icon} size="sm" />
@@ -59,7 +59,7 @@ export default function AnalyticsDashboardPage() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
         {/* User growth chart */}
-        <div className="lg:col-span-2 bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/10 shadow-sm">
+        <div className="lg:col-span-2 bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/10 shadow-sm hover-card-premium">
           <div className="flex items-center justify-between mb-8">
             <h3 className="text-xl font-bold font-headline">User Growth</h3>
             <span className="text-xs font-bold text-on-surface-variant uppercase tracking-widest">2024</span>
@@ -79,7 +79,7 @@ export default function AnalyticsDashboardPage() {
         </div>
 
         {/* Top topics */}
-        <div className="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/10 shadow-sm">
+        <div className="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/10 shadow-sm hover-card-premium">
           <h3 className="text-xl font-bold font-headline mb-6">Top Topics</h3>
           <div className="space-y-5">
             {topTopics.map((topic) => (
@@ -96,7 +96,7 @@ export default function AnalyticsDashboardPage() {
       </div>
 
       {/* Funnel */}
-      <div className="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/10 shadow-sm">
+      <div className="bg-surface-container-lowest p-8 rounded-2xl border border-outline-variant/10 shadow-sm hover-card-premium">
         <h3 className="text-xl font-bold font-headline mb-8">User Engagement Funnel</h3>
         <div className="space-y-4">
           {funnelSteps.map((step, index) => (

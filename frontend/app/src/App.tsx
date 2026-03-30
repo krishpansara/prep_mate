@@ -30,6 +30,7 @@ export default function App() {
     <BrowserRouter>
       <Suspense fallback={<PageLoader />}>
         <Routes>
+
           {/* Public */}
           <Route path="/" element={<LandingPage />} />
 

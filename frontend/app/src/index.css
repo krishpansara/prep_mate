@@ -3,58 +3,340 @@
 @tailwind utilities;
 
 @layer base {
-  *,
-  *::before,
-  *::after {
-    box-sizing: border-box;
+  :root {
+    /* ══════════════════════════════════════════════════════════
+       LIGHT THEME
+    ══════════════════════════════════════════════════════════ */
+
+    /* Page & surface layers */
+    --color-background:   248 250 252;  /* slate-50  */
+    --color-surface:      255 255 255;  /* white     */
+    --color-surface-hover: 241 245 249; /* slate-100 */
+
+    /* Primary — Blue (light only) */
+    --color-primary-50:   239 246 255;
+    --color-primary-100:  219 234 254;
+    --color-primary-200:  191 219 254;
+    --color-primary-300:  147 197 253;
+    --color-primary-400:   96 165 250;
+    --color-primary-500:   59 130 246;
+    --color-primary-600:   37  99 235;
+    --color-primary-700:   29  78 216;
+    --color-primary-800:   30  64 175;
+    --color-primary-900:   30  58 138;
+    --color-primary-950:   23  37  84;
+
+    /* Accent — Violet (light) */
+    --color-accent-50:  250 245 255;
+    --color-accent-100: 243 232 255;
+    --color-accent-200: 233 213 255;
+    --color-accent-300: 216 180 254;
+    --color-accent-400: 192 132 252;
+    --color-accent-500: 168  85 247;
+    --color-accent-600: 147  51 234;
+    --color-accent-700: 126  34 206;
+    --color-accent-800: 107  33 168;
+    --color-accent-900:  88  28 135;
+    --color-accent-950:  59   7 100;
+
+    /* Secondary — Indigo */
+    --color-secondary:           99 102 241;
+    --color-secondary-container: 224 231 255;
+    --color-on-secondary:        255 255 255;
+    --color-on-secondary-container: 49 46 129;
+
+    /* Tertiary — Fuchsia */
+    --color-tertiary:           217  70 239;
+    --color-tertiary-container: 250 232 255;
+    --color-on-tertiary:        255 255 255;
+    --color-on-tertiary-container: 112 26 117;
+
+    /* Status */
+    --color-success:              16 185 129;
+    --color-success-container:   209 250 229;
+    --color-on-success-container:  6  78  59;
+    --color-warning:             245 158  11;
+    --color-error:               239  68  68;
+    --color-error-container:     254 226 226;
+    --color-on-error-container:  127  29  29;
+
+    /* Text */
+    --color-on-surface:          15  23  42;   /* slate-900 */
+    --color-on-surface-variant:  71  85 105;   /* slate-600 */
+
+    /* Borders */
+    --color-outline:         148 163 184;  /* slate-400 */
+    --color-outline-variant: 226 232 240;  /* slate-200 */
+
+    /* 5-level surface depth */
+    --color-surface-container-lowest:  255 255 255;
+    --color-surface-container-low:     248 250 252;
+    --color-surface-container:         241 245 249;
+    --color-surface-container-high:    226 232 240;
+    --color-surface-container-highest: 203 213 225;
+    --color-surface-dim:               203 213 225;
+
+    /* Primary container aliases */
+    --color-primary-container:      224 242 254;
+    --color-on-primary-container:    12  74 110;
   }
+
+  /* ══════════════════════════════════════════════════════════
+     DARK THEME  ·  Purple + Teal (Material Design palette)
+  ══════════════════════════════════════════════════════════ */
+  .dark {
+    /* ── Backgrounds — charcoal #121212 family ─────────── */
+    --color-background:    18  18  18;   /* #121212 */
+    --color-surface:       30  30  30;   /* #1E1E1E */
+    --color-surface-hover: 44  44  44;   /* #2C2C2C — card hover bg */
+
+    /* ── Primary remapped to PURPLE #BB86FC ─────────────
+       All text-primary, bg-primary, from-primary, ring-primary
+       in dark mode will become vivid purple.               */
+    --color-primary-50:   49  14  51;   /* deep purple bg */
+    --color-primary-100:  79  29  82;
+    --color-primary-200: 187 134 252;   /* #BB86FC — main light purple */
+    --color-primary-300: 207 166 254;
+    --color-primary-400: 187 134 252;   /* #BB86FC */
+    --color-primary-500: 187 134 252;   /* #BB86FC — DEFAULT accent */
+    --color-primary-600: 156  92 249;
+    --color-primary-700: 124  58 237;
+    --color-primary-800:  79  29  82;
+    --color-primary-900:  49  14  51;
+    --color-primary-950:  30   7  32;
+
+    /* ── Accent remapped to TEAL #03DAC5 ────────────────── */
+    --color-accent-50:    0  54  50;
+    --color-accent-100:   0  77  71;
+    --color-accent-200:   3 218 197;   /* #03DAC5 */
+    --color-accent-300:  97 241 228;
+    --color-accent-400:   3 218 197;   /* #03DAC5 */
+    --color-accent-500:   3 218 197;   /* #03DAC5 — DEFAULT */
+    --color-accent-600:   0 186 167;
+    --color-accent-700:   0 148 133;
+    --color-accent-800:   0  77  71;
+    --color-accent-900:   0  54  50;
+    --color-accent-950:   0  30  28;
+
+    /* ── Secondary = Teal (same as accent in dark) ─────── */
+    --color-secondary:              3 218 197;   /* #03DAC5 */
+    --color-secondary-container:    0  54  50;
+    --color-on-secondary:          18  18  18;
+    --color-on-secondary-container: 97 241 228;
+
+    /* ── Tertiary = soft purple variant ─────────────────── */
+    --color-tertiary:           207 166 254;
+    --color-tertiary-container:  49  14  51;
+    --color-on-tertiary:         18  18  18;
+    --color-on-tertiary-container: 233 213 255;
+
+    /* ── Status (slightly brighter for dark) ────────────── */
+    --color-success:              52 211 153;
+    --color-success-container:     6  78  59;
+    --color-on-success-container: 167 243 208;
+    --color-error:               207  98  98;   /* softer red for dark */
+    --color-error-container:      93  27  27;
+    --color-on-error-container:  255 179 179;
+
+    /* ── Text ───────────────────────────────────────────── */
+    --color-on-surface:         230 225 229;   /* #E6E1E5 — Material dark text */
+    --color-on-surface-variant: 202 196 208;   /* #CAC4D0 — secondary text */
+
+    /* ── Borders ────────────────────────────────────────── */
+    --color-outline:         73  69  79;   /* #49454F */
+    --color-outline-variant: 49  48  51;   /* #313033 — subtle border */
+
+    /* ── Surface container elevation scale ─────────────── */
+    --color-surface-container-lowest:  15  15  15;   /* #0F0F0F */
+    --color-surface-container-low:     30  30  30;   /* #1E1E1E */
+    --color-surface-container:         37  37  37;   /* #252525 */
+    --color-surface-container-high:    45  45  45;   /* #2D2D2D */
+    --color-surface-container-highest: 56  56  56;   /* #383838 */
+    --color-surface-dim:               18  18  18;
+
+    /* ── Primary container ──────────────────────────────── */
+    --color-primary-container:   79  29  82;   /* dark purple */
+    --color-on-primary-container: 233 213 255; /* light violet */
+  }
+
+  /* ── Global resets ────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; }
 
   html {
     font-family: 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    scroll-behavior: smooth;
+    @apply bg-background text-on-surface;
   }
 
-  h1,
-  h2,
-  h3,
-  h4 {
-    font-family: 'Manrope', sans-serif;
-  }
+  h1, h2, h3, h4, h5, h6 { font-family: 'Manrope', sans-serif; }
 
   body {
-    @apply bg-background text-on-surface;
-    selection-color: theme('colors.primary-container');
+    @apply bg-background text-on-surface overflow-x-hidden transition-colors duration-300;
   }
 
+  /* Selection — purple tint in dark */
   ::selection {
-    @apply bg-primary-container text-on-primary-container;
+    @apply bg-primary-500/30;
   }
+  .dark ::selection {
+    background: rgba(187, 134, 252, 0.25);
+    color: rgb(233, 213, 255);
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 4px; height: 4px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { @apply bg-outline-variant rounded-full; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-outline; }
 }
 
+/* ══════════════════════════════════════════════════════════════
+   UTILITIES
+══════════════════════════════════════════════════════════════ */
 @layer utilities {
+  /* Icon variation settings */
   .material-symbols-outlined {
-    font-variation-settings:
-      'FILL' 0,
-      'wght' 400,
-      'GRAD' 0,
-      'opsz' 24;
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
-
   .material-symbols-filled {
-    font-variation-settings:
-      'FILL' 1,
-      'wght' 400,
-      'GRAD' 0,
-      'opsz' 24;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
   }
 
-  .hide-scrollbar::-webkit-scrollbar {
-    display: none;
+  /* Hide scrollbar */
+  .hide-scrollbar::-webkit-scrollbar { display: none; }
+  .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* ── Glass panels ─────────────────────────────────────── */
+  /* Light: elevated white card / Dark: charcoal */
+  .glass-panel {
+    background-color: rgba(255, 255, 255, 0.90);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(226, 232, 240, 0.80);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    transition: all 0.3s ease;
+  }
+  .dark .glass-panel {
+    background-color: rgba(37, 37, 37, 0.90);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.6);
   }
 
-  .hide-scrollbar {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
+  .glass-panel-heavy {
+    background-color: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgba(226, 232, 240, 0.60);
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+    transition: all 0.3s ease;
+  }
+  .dark .glass-panel-heavy {
+    background-color: rgba(30, 30, 30, 0.80);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.7);
+  }
+
+  /* Interactive glass button — NO white hover in dark */
+  .glass-button {
+    background-color: rgb(255, 255, 255);
+    border: 1px solid rgb(226, 232, 240);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    transition: all 0.2s ease;
+  }
+  .glass-button:hover {
+    background-color: rgb(248, 250, 252);
+  }
+  .dark .glass-button {
+    background-color: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .dark .glass-button:hover {
+    background-color: rgb(44, 44, 44); /* #2C2C2C — surface-hover */
+  }
+
+  /* ── Text gradients ───────────────────────────────────── */
+  /* Light: blue → violet */
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary-600 to-accent-600
+           dark:from-primary-400 dark:to-accent-400
+           bg-clip-text text-transparent;
+  }
+
+  /* Purple → teal headline gradient for dark mode  */
+  .dark .text-gradient {
+    background-image: linear-gradient(
+      to right,
+      rgb(187 134 252),   /* #BB86FC purple */
+      rgb(3 218 197)       /* #03DAC5 teal */
+    );
+  }
+
+  /* ── Premium hover card ───────────────────────────────── */
+  .hover-card-premium {
+    @apply transition-all duration-300 border border-transparent;
+  }
+
+  /* Light hover: lift + blue-tinted shadow */
+  .hover-card-premium:hover {
+    @apply border-primary-200 shadow-[0_4px_20px_-4px_rgba(37,99,235,0.12)] -translate-y-0.5;
+  }
+
+  /* Dark hover: purple glow — NO white background */
+  .dark .hover-card-premium:hover {
+    border-color: rgba(187, 134, 252, 0.45) !important;
+    box-shadow: 0 8px 30px -4px rgba(187, 134, 252, 0.22) !important;
+    transform: translateY(-4px);
+  }
+
+  /* ── Dark mode card base (uniform) ───────────────────── */
+  /* Subtle border so cards are defined without being white */
+  .dark .bg-surface-container-lowest,
+  .dark .bg-surface-container-low,
+  .dark .bg-surface-container,
+  .dark .bg-surface-container-high,
+  .dark .glass-panel,
+  .dark .glass-panel-heavy {
+    border-color: rgba(255, 255, 255, 0.06) !important;
+    box-shadow: 0 4px 24px -4px rgba(0,0,0,0.55),
+                inset 0 1px 0 rgba(255,255,255,0.03) !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Dark hover → purple glow, dark bg — NOT white */
+  .dark .bg-surface-container-lowest:hover,
+  .dark .bg-surface-container-low:hover,
+  .dark .bg-surface-container:hover,
+  .dark .bg-surface-container-high:hover,
+  .dark .glass-panel:hover,
+  .dark .glass-panel-heavy:hover {
+    border-color: rgba(187, 134, 252, 0.38) !important;
+    box-shadow: 0 12px 36px -4px rgba(187, 134, 252, 0.2),
+                inset 0 1px 0 rgba(255,255,255,0.06) !important;
+  }
+
+  /* ── Light mode card shadow ───────────────────────────── */
+  .bg-surface-container-lowest,
+  .bg-surface-container-low,
+  .bg-surface-container,
+  .bg-surface-container-high {
+    box-shadow: 0 1px 3px rgba(15,23,42,0.06), 0 1px 2px rgba(15,23,42,0.04);
+  }
+
+  /* ══════════════════════════════════════════════════════
+     GLOBAL DARK MODE HOVER FIX
+     Prevents any lingering white/light hover background
+     from making white text invisible in dark mode.
+  ══════════════════════════════════════════════════════ */
+
+  /* Any element that only has a light hover bg (slate-100)
+     gets overridden in dark to use --color-surface-hover */
+  .dark *:where(.hover\:bg-slate-100):hover,
+  .dark *:where(.hover\:bg-slate-50):hover,
+  .dark *:where(.hover\:bg-white):hover {
+    background-color: rgb(var(--color-surface-hover)) !important;
+    color: rgb(var(--color-on-surface));
   }
 }

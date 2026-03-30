@@ -1,6 +1,7 @@
 import AppShell from '@components/layout/AppShell'
 import Icon from '@components/ui/Icon'
 import Badge from '@components/ui/Badge'
+import Button from '@components/ui/Button'
 
 interface DeepDiveQuestion {
   id: string
@@ -38,74 +39,83 @@ const diffMap: Record<DeepDiveQuestion['difficulty'], 'secondary' | 'neutral' | 
 export default function DeepDiveQuestionPage() {
   return (
     <AppShell>
-      <div className="max-w-3xl mx-auto py-12">
+      <div className="max-w-4xl mx-auto py-12 relative">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
         {/* Header */}
-        <header className="mb-16">
-          <Badge label="Deep Dive" variant="primary" uppercase className="mb-6" />
-          <h1 className="font-headline text-5xl font-extrabold text-on-surface tracking-tighter mb-6">
+        <header className="mb-16 relative z-10 animate-slide-up">
+          <Badge label="Deep Dive" variant="primary" uppercase className="mb-8 shadow-[0_0_15px_rgba(59,130,246,0.3)]" />
+          <h1 className="font-headline text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-on-surface to-on-surface-variant dark:from-white dark:to-white/70 tracking-tighter mb-6">
             Behavioral Deep Dive
           </h1>
-          <p className="text-lg text-on-surface-variant leading-relaxed max-w-xl">
+          <p className="text-xl text-on-surface-variant dark:text-white/70 leading-relaxed max-w-2xl font-body">
             Master the "why" and "when", not just the "what". These questions test your ability to reason aloud under pressure — like a real senior engineer interview.
           </p>
         </header>
 
         {/* Questions */}
-        <div className="space-y-12">
-          {questions.map((q) => (
-            <article key={q.id} className="group">
+        <div className="space-y-16 relative z-10">
+          {questions.map((q, i) => (
+            <article key={q.id} className="group animate-fade-in" style={{ animationDelay: `${0.2 + i * 0.1}s` }}>
               {/* Question number + difficulty */}
               <div className="flex items-center gap-4 mb-6">
-                <div className="w-12 h-12 rounded-2xl bg-surface-container-low flex items-center justify-center font-mono font-bold text-primary text-sm flex-shrink-0">
+                <div className="w-14 h-14 rounded-2xl bg-slate-100 dark:bg-white/5 border border-slate-200 dark:border-white/10 flex items-center justify-center font-mono font-bold text-primary-600 dark:text-primary-400 text-lg flex-shrink-0 shadow-inner group-hover:bg-primary-50 dark:group-hover:bg-primary-500/10 transition-colors">
                   {q.number}
                 </div>
                 <Badge label={q.difficulty} variant={diffMap[q.difficulty]} uppercase />
               </div>
 
               {/* Question */}
-              <h2 className="text-2xl font-bold font-headline text-on-surface mb-6 leading-snug">
+              <h2 className="text-3xl font-black font-headline text-on-surface dark:text-white mb-8 leading-snug tracking-tight">
                 {q.question}
               </h2>
 
-              {/* Answer */}
-              <div className="bg-surface-container-lowest rounded-2xl p-8 border border-outline-variant/10">
-                <div className="flex items-center gap-2 mb-4">
-                  <Icon name="psychology" className="text-primary" size="sm" />
-                  <span className="text-xs font-bold uppercase tracking-widest text-on-surface-variant">Model Answer</span>
+              {/* Answer Box */}
+              <div className="bg-white dark:bg-surface/40 backdrop-blur-md rounded-3xl p-8 md:p-10 border border-slate-200 dark:border-white/5 shadow-md dark:shadow-xl relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-primary-500 to-accent-500"></div>
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-8 h-8 rounded-full bg-primary-500/10 dark:bg-primary-500/20 text-primary-600 dark:text-primary-400 flex items-center justify-center"><Icon name="psychology" size="sm" /></div>
+                  <span className="text-sm font-bold uppercase tracking-widest text-primary-600 dark:text-primary-200">Model Answer</span>
                 </div>
-                <p className="text-on-surface leading-relaxed">{q.answer}</p>
+                <p className="text-on-surface-variant dark:text-white/90 text-lg leading-relaxed font-body">{q.answer}</p>
               </div>
 
               {/* Framework hint */}
               {q.framework && (
-                <div className="mt-4 p-4 bg-secondary/5 rounded-xl border-l-4 border-secondary/30 flex gap-3">
-                  <Icon name="lightbulb" className="text-secondary flex-shrink-0 mt-0.5" size="sm" filled />
-                  <p className="text-sm text-secondary-dim leading-relaxed">
-                    <strong>Answer Framework:</strong> {q.framework}
+                <div className="mt-6 p-6 bg-accent-500/5 dark:bg-accent-500/5 rounded-2xl border border-accent-200 dark:border-accent-500/20 flex gap-4 backdrop-blur-sm group-hover:border-accent-300 dark:group-hover:border-accent-500/40 transition-colors">
+                  <div className="w-10 h-10 rounded-full bg-accent-500/10 dark:bg-accent-500/20 text-accent-600 dark:text-accent-400 flex items-center justify-center flex-shrink-0">
+                     <Icon name="lightbulb" size="sm" filled />
+                  </div>
+                  <p className="text-on-surface-variant dark:text-white/80 leading-relaxed pt-1">
+                    <span className="font-bold text-accent-600 dark:text-accent-300 mr-2">Answer Framework:</span>
+                    {q.framework}
                   </p>
                 </div>
               )}
 
               {/* Divider */}
-              <div className="mt-12 h-px bg-gradient-to-r from-transparent via-outline-variant/20 to-transparent" />
+              {i !== questions.length - 1 && (
+                <div className="mt-16 h-px w-full bg-gradient-to-r from-transparent via-outline-variant/50 dark:via-white/10 to-transparent" />
+              )}
             </article>
           ))}
         </div>
 
         {/* Progress CTA */}
-        <div className="mt-20 bg-surface-container-low rounded-3xl p-10 text-center border border-outline-variant/10">
-          <p className="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-4">Session Complete</p>
-          <h3 className="text-3xl font-bold font-headline mb-4">Great depth, Zen.</h3>
-          <p className="text-on-surface-variant mb-8 max-w-sm mx-auto">
-            You answered 3 Deep Dive questions. Ready to test your speed with the next module?
+        <div className="mt-24 glass-panel-heavy rounded-3xl p-12 text-center border-primary-500/20 dark:border-primary-500/30 shadow-lg dark:shadow-[0_0_40px_rgba(59,130,246,0.1)] relative overflow-hidden group">
+          <div className="absolute inset-0 bg-gradient-to-t from-primary-600/5 dark:from-primary-600/10 to-transparent pointer-events-none"></div>
+          <p className="text-xs uppercase tracking-widest text-primary-600 dark:text-primary-300 font-bold mb-4">Session Complete</p>
+          <h3 className="text-4xl font-black font-headline text-on-surface dark:text-white mb-6">Great depth, Zen.</h3>
+          <p className="text-on-surface-variant dark:text-white/70 mb-10 max-w-md mx-auto text-lg">
+            You reasoned through 3 Deep Dive questions. Ready to test your speed with the next module?
           </p>
-          <div className="flex justify-center gap-4">
-            <button className="px-6 py-3 bg-primary text-white rounded-2xl font-bold hover:bg-primary-dim transition-colors">
+          <div className="flex flex-col sm:flex-row justify-center gap-6 relative z-10">
+            <Button variant="primary" size="lg" className="px-10 shadow-[0_0_15px_rgba(59,130,246,0.3)] dark:shadow-[0_0_20px_rgba(59,130,246,0.4)]">
               Next Module
-            </button>
-            <button className="px-6 py-3 bg-surface-container text-on-surface rounded-2xl font-bold hover:bg-surface-container-high transition-colors">
+            </Button>
+            <Button variant="secondary" size="lg" className="px-10">
               Review Again
-            </button>
+            </Button>
           </div>
         </div>
       </div>

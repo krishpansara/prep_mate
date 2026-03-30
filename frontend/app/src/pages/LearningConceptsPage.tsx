@@ -1,7 +1,6 @@
 import AppShell from '@components/layout/AppShell'
 import Icon from '@components/ui/Icon'
 import Badge from '@components/ui/Badge'
-import ProgressBar from '@components/ui/ProgressBar'
 
 interface Concept {
   id: string
@@ -41,83 +40,101 @@ const completedCount = concepts.filter((c) => c.completed).length
 export default function LearningConceptsPage() {
   return (
     <AppShell>
-      <div className="max-w-4xl mx-auto py-8">
+      <div className="max-w-4xl mx-auto py-12 relative">
+        {/* Background Glow */}
+        <div className="absolute top-0 left-0 w-96 h-96 bg-primary-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+
         {/* Header */}
-        <header className="mb-12">
-          <div className="flex items-center gap-3 mb-4">
-            <Badge label="Data Structures" variant="primary" />
-            <span className="text-on-surface-variant text-sm">· 4 Concepts</span>
+        <header className="mb-16 relative z-10 animate-slide-up">
+          <div className="flex items-center gap-4 mb-6">
+            <Badge label="Data Structures" variant="primary" className="shadow-[0_0_15px_rgba(59,130,246,0.3)]" />
+            <span className="text-white/50 text-sm font-medium tracking-wide">· 4 Concepts</span>
           </div>
-          <h1 className="font-headline text-5xl font-extrabold text-on-surface tracking-tighter mb-4">
+          <h1 className="font-headline text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white to-white/70 tracking-tighter mb-6">
             Core Concepts
           </h1>
-          <p className="text-on-surface-variant text-lg max-w-2xl leading-relaxed mb-8">
+          <p className="text-white/70 text-lg md:text-xl max-w-2xl leading-relaxed mb-10">
             Master the building blocks. These concepts form the foundation of every technical interview at top companies.
           </p>
 
           {/* Progress */}
-          <div className="bg-surface-container-lowest rounded-2xl p-6 border border-outline-variant/10 flex items-center gap-6">
+          <div className="glass-panel rounded-3xl p-8 border border-white/10 flex flex-col md:flex-row md:items-center gap-8 shadow-xl">
             <div className="flex-1">
-              <ProgressBar
-                value={completedCount}
-                max={concepts.length}
-                label={`${completedCount} of ${concepts.length} completed`}
-              />
+              <div className="flex justify-between items-center mb-3">
+                 <span className="text-sm font-bold text-white/80 uppercase tracking-widest">Course Progress</span>
+                 <span className="text-xs font-medium text-white/50">{completedCount} of {concepts.length} completed</span>
+              </div>
+              <div className="h-3 w-full bg-white/10 rounded-full overflow-hidden shadow-inner">
+                <div 
+                  className="h-full bg-gradient-to-r from-primary-500 to-accent-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)] transition-all duration-1000" 
+                  style={{ width: `${(completedCount / concepts.length) * 100}%` }}
+                />
+              </div>
             </div>
-            <span className="text-2xl font-extrabold font-headline text-primary flex-shrink-0">
+            <div className="text-3xl md:text-4xl font-black font-headline text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-accent-400 flex-shrink-0">
               {Math.round((completedCount / concepts.length) * 100)}%
-            </span>
+            </div>
           </div>
         </header>
 
         {/* Concept cards */}
-        <div className="space-y-6">
+        <div className="space-y-8 relative z-10">
           {concepts.map((concept, index) => (
             <article
               key={concept.id}
-              className={`rounded-2xl border transition-all group cursor-pointer ${
+              className={`rounded-3xl border transition-all duration-500 group overflow-hidden relative ${
                 concept.completed
-                  ? 'bg-surface-container-lowest border-outline-variant/10 hover:shadow-md'
-                  : 'bg-surface-container-lowest border-primary/20 hover:border-primary/40 hover:shadow-lg'
+                  ? 'bg-white/[0.03] border-white/5 hover:bg-white/[0.05]'
+                  : 'bg-white/[0.05] border-primary-500/30 hover:border-primary-400 shadow-[0_0_30px_rgba(59,130,246,0.1)] hover:shadow-[0_0_40px_rgba(59,130,246,0.2)]'
               }`}
             >
-              <div className="p-8">
-                <div className="flex items-start justify-between gap-6">
-                  <div className="flex items-start gap-6">
+              {/* Active glow */}
+              {!concept.completed && (
+                <div className="absolute inset-0 bg-gradient-to-r from-primary-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"></div>
+              )}
+
+              <div className="p-8 md:p-10 relative z-10">
+                <div className="flex flex-col md:flex-row items-start justify-between gap-8 md:gap-10">
+                  <div className="flex flex-col md:flex-row items-start gap-8">
                     {/* Number + status */}
-                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0 font-mono font-bold text-sm ${
+                    <div className={`w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 font-mono font-bold text-lg shadow-inner ${
                       concept.completed
-                        ? 'bg-secondary/10 text-secondary'
-                        : 'bg-primary/10 text-primary'
+                        ? 'bg-accent-500/20 text-accent-400 border border-accent-500/30'
+                        : 'bg-primary-500/20 text-primary-400 border border-primary-500/30 shadow-[0_0_15px_rgba(59,130,246,0.4)]'
                     }`}>
                       {concept.completed ? (
-                        <Icon name="check" size="sm" />
+                        <Icon name="check" size="md" />
                       ) : (
                         concept.number
                       )}
                     </div>
 
                     <div>
-                      <div className="flex items-center gap-3 mb-2">
+                      <div className="flex items-center gap-4 mb-4">
                         {concept.completed && (
-                          <Badge label="Completed" variant="secondary" uppercase />
+                          <Badge label="Completed" variant="secondary" uppercase className="!bg-accent-500/20 !text-accent-300 !border-accent-500/30" />
                         )}
                         {!concept.completed && index === completedCount && (
-                          <Badge label="Up Next" variant="primary" uppercase />
+                          <Badge label="Up Next" variant="primary" uppercase className="shadow-[0_0_10px_rgba(59,130,246,0.4)]" />
                         )}
-                        <span className="text-xs text-on-surface-variant font-medium">
+                        <span className="text-xs text-white/40 font-medium tracking-wide">
                           {concept.readMinutes} min read
                         </span>
                       </div>
-                      <h2 className="text-xl font-bold font-headline text-on-surface mb-3 group-hover:text-primary transition-colors">
+                      <h2 className={`text-2xl md:text-3xl font-bold font-headline mb-4 transition-colors ${concept.completed ? 'text-white/80' : 'text-white group-hover:text-primary-300'}`}>
                         {concept.title}
                       </h2>
-                      <p className="text-on-surface-variant leading-relaxed">{concept.summary}</p>
-                      <div className="flex flex-wrap gap-2 mt-4">
+                      <p className="text-white/60 leading-relaxed text-lg max-w-2xl mb-6">{concept.summary}</p>
+                      
+                      <div className="flex flex-wrap gap-3 mt-2">
                         {concept.tags.map((tag) => (
                           <span
                             key={tag}
-                            className="px-3 py-1 bg-surface-container text-on-surface-variant text-xs font-medium rounded-full"
+                            className={`px-4 py-1.5 border text-xs font-semibold rounded-full tracking-wide ${
+                              concept.completed 
+                                ? 'bg-white/5 border-white/5 text-white/40' 
+                                : 'bg-primary-500/10 border-primary-500/20 text-primary-300 shadow-sm'
+                            }`}
                           >
                             {tag}
                           </span>
@@ -127,14 +144,14 @@ export default function LearningConceptsPage() {
                   </div>
 
                   <button
-                    className={`flex-shrink-0 p-3 rounded-full transition-all ${
+                    className={`flex-shrink-0 w-14 h-14 rounded-full flex items-center justify-center transition-all ${
                       concept.completed
-                        ? 'bg-secondary/10 text-secondary'
-                        : 'bg-primary text-white hover:bg-primary-dim shadow-md'
+                        ? 'bg-transparent text-white/20 border border-white/10'
+                        : 'bg-primary-600 text-white hover:bg-primary-500 shadow-[0_0_20px_rgba(59,130,246,0.6)] hover:scale-110 active:scale-95'
                     }`}
                     aria-label={concept.completed ? 'Completed' : 'Start'}
                   >
-                    <Icon name={concept.completed ? 'check' : 'arrow_forward'} size="sm" />
+                    <Icon name={concept.completed ? 'check' : 'arrow_forward'} size="md" />
                   </button>
                 </div>
               </div>
@@ -143,17 +160,17 @@ export default function LearningConceptsPage() {
         </div>
 
         {/* Next module CTA */}
-        <div className="mt-16 p-10 bg-inverse-surface rounded-3xl text-center relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-tr from-primary/20 to-secondary/20 pointer-events-none" />
+        <div className="mt-20 p-12 glass-panel-heavy rounded-[3rem] text-center relative overflow-hidden group hover:border-primary-500/40 transition-colors">
+          <div className="absolute inset-0 bg-gradient-to-t from-primary-600/20 via-transparent to-transparent opacity-50 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
           <div className="relative z-10">
-            <p className="text-inverse-on-surface text-xs uppercase tracking-widest font-bold mb-4">All Done?</p>
-            <h3 className="text-3xl font-bold font-headline text-surface mb-4">
+            <p className="text-primary-400 text-sm uppercase tracking-widest font-black mb-6">All Done?</p>
+            <h3 className="text-4xl md:text-5xl font-black font-headline text-white mb-6 tracking-tight">
               Test Your Knowledge
             </h3>
-            <p className="text-surface-variant mb-8 max-w-sm mx-auto">
+            <p className="text-white/70 mb-10 text-lg max-w-lg mx-auto leading-relaxed">
               Apply what you've learned with curated interview questions for this topic.
             </p>
-            <button className="px-8 py-3 bg-surface text-on-surface rounded-2xl font-bold hover:bg-primary-container hover:text-on-primary-container transition-colors">
+            <button className="px-10 py-4 bg-white text-primary-600 rounded-full font-bold hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition-all scale-100 hover:scale-105 active:scale-95 text-lg">
               Start Practice Questions
             </button>
           </div>

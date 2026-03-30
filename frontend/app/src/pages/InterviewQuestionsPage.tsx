@@ -41,9 +41,9 @@ const questions: Question[] = [
 ]
 
 const difficultyColor: Record<Difficulty, string> = {
-  easy: 'bg-secondary/10 text-secondary',
-  medium: 'bg-amber-400/15 text-amber-600',
-  hard: 'bg-error/10 text-error',
+  easy: 'bg-primary-500/10 text-primary-400 border border-primary-500/20 shadow-[0_0_10px_rgba(59,130,246,0.3)]',
+  medium: 'bg-accent-500/10 text-accent-400 border border-accent-500/20 shadow-[0_0_10px_rgba(168,85,247,0.3)]',
+  hard: 'bg-red-500/10 text-red-400 border border-red-500/20 shadow-[0_0_10px_rgba(239,68,68,0.3)]',
 }
 
 export default function InterviewQuestionsPage() {
@@ -53,32 +53,33 @@ export default function InterviewQuestionsPage() {
   const filtered = activeTab === 'all' ? questions : questions.filter((q) => q.difficulty === activeTab)
   const tabs: { key: FilterTab; label: string; dot?: string }[] = [
     { key: 'all', label: 'All Challenges' },
-    { key: 'easy', label: 'Easy', dot: 'bg-secondary' },
-    { key: 'medium', label: 'Medium', dot: 'bg-amber-400' },
-    { key: 'hard', label: 'Hard', dot: 'bg-error' },
+    { key: 'easy', label: 'Easy', dot: 'bg-primary-500 shadow-[0_0_5px_rgba(59,130,246,0.8)]' },
+    { key: 'medium', label: 'Medium', dot: 'bg-accent-500 shadow-[0_0_5px_rgba(168,85,247,0.8)]' },
+    { key: 'hard', label: 'Hard', dot: 'bg-red-500 shadow-[0_0_5px_rgba(239,68,68,0.8)]' },
   ]
 
   return (
     <AppShell>
       {/* Header */}
-      <div className="max-w-4xl mx-auto mb-12">
-        <h1 className="font-headline text-5xl font-extrabold text-on-surface tracking-tighter mb-4">
+      <div className="max-w-5xl mx-auto mb-16 relative">
+        <div className="absolute top-0 right-0 w-80 h-80 bg-accent-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+        <h1 className="font-headline text-5xl md:text-7xl font-black text-white tracking-tighter mb-6">
           Algorithm Mastery
         </h1>
-        <p className="text-on-surface-variant text-lg max-w-2xl leading-relaxed">
+        <p className="text-white/70 text-xl max-w-2xl leading-relaxed">
           A curated collection of industry-standard coding challenges. Focused, distraction-free, and architected for deep learning.
         </p>
 
         {/* Filter tabs */}
-        <div className="mt-10 flex items-center gap-8 border-b border-surface-container-highest pb-0">
+        <div className="mt-12 flex flex-wrap items-center gap-6 md:gap-10 border-b border-white/10 pb-0">
           {tabs.map((t) => (
             <button
               key={t.key}
               onClick={() => setActiveTab(t.key)}
-              className={`pb-4 text-sm flex items-center gap-2 border-b-2 transition-all -mb-px ${
+              className={`pb-4 text-base flex items-center gap-3 border-b-2 transition-all -mb-px ${
                 activeTab === t.key
-                  ? 'border-primary text-primary font-bold'
-                  : 'border-transparent text-on-surface-variant hover:text-on-surface font-medium'
+                  ? 'border-primary-400 text-primary-400 font-bold'
+                  : 'border-transparent text-white/50 hover:text-white hover:border-white/20 font-medium'
               }`}
             >
               {t.dot && <span className={`w-2 h-2 rounded-full ${t.dot}`} />}
@@ -89,26 +90,26 @@ export default function InterviewQuestionsPage() {
       </div>
 
       {/* Question cards */}
-      <div className="max-w-4xl mx-auto flex flex-col gap-10">
+      <div className="max-w-5xl mx-auto flex flex-col gap-8">
         {filtered.map((q) => {
           const isOpen = openId === q.id
           return (
-            <article key={q.id} className="bg-surface-container-lowest rounded-2xl p-10 shadow-sm group">
+            <article key={q.id} className="glass-panel hover:bg-white/[0.07] border-white/10 rounded-[2rem] p-8 md:p-10 transition-all duration-300 group">
               {/* Card header */}
-              <div className="flex justify-between items-start mb-8">
+              <div className="flex justify-between items-start mb-10">
                 <div>
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className={`px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest rounded-lg ${difficultyColor[q.difficulty]}`}>
+                  <div className="flex items-center gap-4 mb-4">
+                    <span className={`px-3 py-1 text-xs font-bold uppercase tracking-widest rounded-xl ${difficultyColor[q.difficulty]}`}>
                       {q.difficulty}
                     </span>
-                    <span className="text-on-surface-variant text-sm font-medium">Problem #{q.number}</span>
+                    <span className="text-white/40 text-sm font-medium tracking-wide">Problem #{q.number}</span>
                   </div>
-                  <h2 className="font-headline text-3xl font-extrabold text-on-surface tracking-tight group-hover:text-primary transition-colors">
+                  <h2 className="font-headline text-3xl md:text-4xl font-extrabold text-white tracking-tight group-hover:text-primary-300 transition-colors">
                     {q.title}
                   </h2>
                 </div>
                 <button
-                  className="p-3 bg-surface-container-low hover:bg-primary-container text-on-surface-variant hover:text-primary rounded-full transition-all"
+                  className="p-4 bg-white/5 hover:bg-primary-500/20 text-white/50 hover:text-primary-400 rounded-full transition-all border border-transparent hover:border-primary-500/30"
                   aria-label="Bookmark"
                 >
                   <Icon name="bookmark" size="sm" />
@@ -116,19 +117,19 @@ export default function InterviewQuestionsPage() {
               </div>
 
               {/* Content */}
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {/* Example */}
-                <div className="p-5 bg-surface-container-low rounded-xl border-l-4 border-primary/20">
-                  <p className="text-sm font-mono text-on-surface-variant italic">Example: {q.example.input}</p>
-                  <p className="text-sm font-mono text-on-surface font-bold mt-1">Output: {q.example.output}</p>
+                <div className="p-6 bg-white/5 rounded-2xl border-l-4 border-primary-500 shadow-inner">
+                  <p className="text-sm font-mono text-white/60 italic mb-2">Example: {q.example.input}</p>
+                  <p className="text-sm font-mono text-white font-bold">Output: {q.example.output}</p>
                 </div>
 
                 {/* Concepts */}
                 <div>
-                  <h3 className="text-xs font-bold text-on-surface-variant uppercase tracking-widest mb-3">Key Concepts Used</h3>
-                  <div className="flex flex-wrap gap-2">
+                  <h3 className="text-xs font-bold text-white/40 uppercase tracking-widest mb-4">Key Concepts Used</h3>
+                  <div className="flex flex-wrap gap-3">
                     {q.concepts.map((c) => (
-                      <span key={c} className="px-4 py-2 bg-surface-container-high text-on-surface-variant text-sm font-medium rounded-full">
+                      <span key={c} className="px-5 py-2 bg-white/5 border border-white/10 text-white/70 text-sm font-medium rounded-full shadow-sm hover:bg-white/10 transition-colors cursor-default">
                         {c}
                       </span>
                     ))}
@@ -136,41 +137,42 @@ export default function InterviewQuestionsPage() {
                 </div>
 
                 {/* Expandable solution */}
-                <div className="border-t border-outline-variant/10 mt-8">
+                <div className="border-t border-white/10 mt-8">
                   <button
                     onClick={() => setOpenId(isOpen ? null : q.id)}
-                    className="flex items-center justify-between w-full py-4 text-left"
+                    className="flex items-center justify-between w-full py-6 text-left group/btn"
                     aria-expanded={isOpen}
                   >
-                    <span className="font-bold text-primary flex items-center gap-2">
+                    <span className="font-bold text-primary-400 flex items-center gap-3 text-lg group-hover/btn:text-primary-300 transition-colors">
                       <Icon name="auto_awesome" size="sm" />
                       View Editorial Solution
                     </span>
-                    <Icon
-                      name="expand_more"
-                      className={`text-on-surface-variant transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
-                      size="sm"
-                    />
+                    <div className={`w-8 h-8 rounded-full border border-white/10 flex items-center justify-center bg-white/5 transition-transform duration-300 ${isOpen ? 'rotate-180 bg-primary-500/20 border-primary-500/30 text-primary-400' : 'text-white/50'}`}>
+                      <Icon
+                        name="expand_more"
+                        size="sm"
+                      />
+                    </div>
                   </button>
 
                   {isOpen && (
-                    <div className="pt-2 pb-4">
-                      <div className="bg-inverse-surface rounded-2xl p-8 overflow-hidden relative">
-                        <div className="flex items-center justify-between mb-4">
-                          <span className="text-xs font-mono text-white/40 uppercase">Python 3</span>
-                          <button className="text-white/60 hover:text-white transition-colors" aria-label="Copy code">
+                    <div className="pt-4 pb-6 animate-slide-up">
+                      <div className="bg-[#0B1120] border border-white/10 rounded-3xl p-8 overflow-hidden relative shadow-2xl">
+                        <div className="flex items-center justify-between mb-6">
+                          <span className="text-xs font-mono text-white/40 uppercase tracking-widest">Python 3</span>
+                          <button className="text-white/40 hover:text-white transition-colors" aria-label="Copy code">
                             <Icon name="content_copy" size="sm" />
                           </button>
                         </div>
-                        <pre className="text-secondary-fixed-dim text-sm leading-relaxed overflow-x-auto font-mono whitespace-pre">
+                        <pre className="text-accent-200 text-sm leading-relaxed overflow-x-auto font-mono whitespace-pre selection:bg-accent-500/30">
                           {q.solution}
                         </pre>
-                        <div className="absolute bottom-4 right-4 text-[10px] text-white/20 font-mono">Verified Solution</div>
+                        <div className="absolute top-0 right-0 w-32 h-32 bg-primary-600/10 rounded-full blur-[50px] pointer-events-none"></div>
                       </div>
                       {q.insight && (
-                        <div className="mt-4 p-4 bg-secondary/5 rounded-xl border border-secondary/10">
-                          <p className="text-sm text-secondary-dim leading-relaxed">
-                            <strong>Insight:</strong> {q.insight}
+                        <div className="mt-6 p-6 bg-accent-500/10 rounded-2xl border border-accent-500/20 shadow-inner backdrop-blur-sm">
+                          <p className="text-white/80 leading-relaxed text-sm">
+                            <strong className="text-accent-400 tracking-wide">INSIGHT:</strong> <br/>{q.insight}
                           </p>
                         </div>
                       )}
@@ -183,29 +185,29 @@ export default function InterviewQuestionsPage() {
         })}
 
         {/* Level-up CTA */}
-        <div className="relative overflow-hidden rounded-3xl h-64 flex items-center justify-center bg-gradient-to-br from-primary to-secondary">
-          <div className="relative z-10 text-center p-8">
-            <h3 className="font-headline text-3xl font-extrabold text-white tracking-tight mb-2">
+        <div className="mt-12 relative overflow-hidden rounded-[3rem] h-80 flex items-center justify-center border border-primary-500/30 shadow-[0_0_50px_rgba(59,130,246,0.15)] group cursor-pointer" onClick={() => setActiveTab('medium')}>
+          <div className="absolute inset-0 bg-gradient-to-br from-primary-600/80 to-accent-600/80 group-hover:opacity-90 transition-opacity duration-500" />
+          <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-20 mix-blend-overlay"></div>
+          
+          <div className="relative z-10 text-center p-8 scale-95 group-hover:scale-100 transition-transform duration-500">
+            <h3 className="font-headline text-4xl md:text-5xl font-black text-white tracking-tight mb-4 drop-shadow-md">
               Ready for Medium?
             </h3>
-            <p className="text-on-primary/80 mb-6">
+            <p className="text-white/90 mb-8 text-lg font-medium drop-shadow-sm">
               You've mastered the basics. Level up your system thinking.
             </p>
-            <button
-              onClick={() => setActiveTab('medium')}
-              className="px-8 py-3 bg-white text-primary rounded-2xl font-bold shadow-xl hover:scale-105 transition-transform active:scale-95"
-            >
+            <div className="inline-block px-10 py-4 bg-white text-primary-600 rounded-full font-bold shadow-2xl group-hover:shadow-[0_0_30px_rgba(255,255,255,0.4)] transition-all">
               Browse Medium Challenges
-            </button>
+            </div>
           </div>
         </div>
 
-        <div className="h-12" />
+        <div className="h-20" />
       </div>
 
       {/* FAB */}
-      <button className="fixed bottom-8 right-8 w-14 h-14 bg-primary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-90 transition-all z-50" aria-label="Notes">
-        <Icon name="history_edu" size="md" />
+      <button className="fixed bottom-8 right-8 w-16 h-16 bg-primary-600 text-white rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)] flex items-center justify-center hover:scale-110 hover:bg-primary-500 transition-all z-50 border border-primary-400" aria-label="Notes">
+        <Icon name="history_edu" size="lg" />
       </button>
     </AppShell>
   )
