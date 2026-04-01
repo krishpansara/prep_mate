@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import AppShell from '@components/layout/AppShell'
 import Icon from '@components/ui/Icon'
 
 type Difficulty = 'easy' | 'medium' | 'hard'
@@ -59,7 +58,7 @@ export default function InterviewQuestionsPage() {
   ]
 
   return (
-    <AppShell>
+    <>
       {/* Header */}
       <div className="max-w-5xl mx-auto mb-16 relative">
         <div className="absolute top-0 right-0 w-80 h-80 bg-accent-600/10 rounded-full blur-[100px] pointer-events-none"></div>
@@ -209,6 +208,6 @@ export default function InterviewQuestionsPage() {
       <button className="fixed bottom-8 right-8 w-16 h-16 bg-primary-600 text-white rounded-full shadow-[0_0_20px_rgba(59,130,246,0.5)] flex items-center justify-center hover:scale-110 hover:bg-primary-500 transition-all z-50 border border-primary-400" aria-label="Notes">
         <Icon name="history_edu" size="lg" />
       </button>
-    </AppShell>
+    </>
   )
 }

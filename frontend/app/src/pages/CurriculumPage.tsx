@@ -95,10 +95,10 @@ const difficultyColors = {
 export default function CurriculumPage() {
   const { courseId } = useParams<{ courseId: string }>()
   const navigate = useNavigate()
-  
+
   // Default to dsa if course is not found for mockup purposes
   const courseData = mockCourseData[courseId || 'dsa'] || mockCourseData['dsa']
-  
+
   const [expandedTopicId, setExpandedTopicId] = useState<string | null>(courseData.topics[0]?.id || null)
 
   const toggleTopic = (topicId: string) => {
@@ -111,24 +111,42 @@ export default function CurriculumPage() {
 
       <main className="flex-1 w-full max-w-[1000px] mx-auto px-6 py-12 lg:py-16">
         {/* Navigation & Header */}
-        <button 
+        <button
           onClick={() => navigate('/library')}
           className="flex items-center text-sm font-bold text-on-surface-variant hover:text-primary transition-colors mb-8"
         >
           <Icon name="arrow_back" size="sm" className="mr-2" /> Back to Library
         </button>
 
-        <header className="mb-16 max-w-2xl">
-          <div className="flex items-center gap-4 mb-4">
-            <span className="text-secondary tracking-widest uppercase text-xs font-bold font-headline">{courseData.subtitle}</span>
-            <div className="h-px bg-outline-variant/30 flex-1 ml-4" />
+        <header className="mb-16 relative z-10 animate-slide-up flex flex-col items-center text-center">
+
+          {/* Badge */}
+          <div className="mb-6">
+            <span className="px-4 py-1 text-xs font-bold uppercase tracking-widest 
+      bg-primary/10 text-primary rounded-full 
+      shadow-[0_0_15px_rgba(59,130,246,0.3)]">
+              {courseData.subtitle}
+            </span>
           </div>
-          <h1 className="text-[3.5rem] font-extrabold font-headline text-on-surface leading-tight tracking-tight mb-6">
+
+          {/* Title */}
+          <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl font-black 
+    text-transparent bg-clip-text bg-gradient-to-r 
+    from-on-surface to-on-surface-variant 
+    dark:from-white dark:to-white/70 
+    tracking-tight mb-6 max-w-3xl">
+
             {courseData.title}
           </h1>
-          <p className="text-xl text-on-surface-variant leading-relaxed">
+
+          {/* Description */}
+          <p className="text-lg md:text-xl text-on-surface-variant 
+    dark:text-white/70 leading-relaxed 
+    max-w-2xl font-body">
+
             {courseData.description}
           </p>
+
         </header>
 
         {/* Timeline / Topics List */}
@@ -140,11 +158,10 @@ export default function CurriculumPage() {
             return (
               <div key={topic.id} className="relative">
                 {/* Timeline node marker */}
-                <div className={`absolute -left-[41px] top-6 w-5 h-5 rounded-full border-4 border-background ${
-                  isLocked ? 'bg-surface-container-high' : 'bg-primary'
-                }`} />
+                <div className={`absolute -left-[41px] top-6 w-5 h-5 rounded-full border-4 border-background ${isLocked ? 'bg-surface-container-high' : 'bg-primary'
+                  }`} />
 
-                <Card 
+                <Card
                   variant={isLocked ? 'surface-low' : 'default'}
                   className={`transition-all duration-300 ${!isLocked ? 'cursor-pointer hover:border-primary/30' : 'opacity-80'}`}
                   onClick={() => !isLocked && toggleTopic(topic.id)}
@@ -154,13 +171,12 @@ export default function CurriculumPage() {
                     <div className="flex items-center gap-3">
                       {isLocked ? (
                         <Icon name="lock" className="text-on-surface-variant" size="sm" />
-                       ) : (
+                      ) : (
                         <Icon name="check_circle" className="text-primary" size="sm" filled />
-                       )}
-                      <span className={`text-xs font-bold tracking-widest uppercase ${
-                        topic.tag === 'FOUNDATIONAL' ? 'text-emerald-500' : 
-                        topic.tag === 'ACTIVE' ? 'text-primary' : 'text-on-surface-variant'
-                      }`}>
+                      )}
+                      <span className={`text-xs font-bold tracking-widest uppercase ${topic.tag === 'FOUNDATIONAL' ? 'text-emerald-500' :
+                          topic.tag === 'ACTIVE' ? 'text-primary' : 'text-on-surface-variant'
+                        }`}>
                         {topic.tag}
                       </span>
                     </div>
@@ -178,7 +194,7 @@ export default function CurriculumPage() {
                     </h2>
                     {!isLocked && (
                       <div className={`transform transition-transform duration-300 text-on-surface-variant ${isExpanded ? 'rotate-180' : ''}`}>
-                         <Icon name="expand_more" />
+                        <Icon name="expand_more" />
                       </div>
                     )}
                   </div>
@@ -190,16 +206,15 @@ export default function CurriculumPage() {
                         <Icon name="warning" size="sm" />
                       </div>
                       <div>
-                         <h4 className="font-bold text-sm text-on-surface mb-1">Prerequisite required</h4>
-                         <p className="text-xs text-on-surface-variant">{topic.lockReason}</p>
+                        <h4 className="font-bold text-sm text-on-surface mb-1">Prerequisite required</h4>
+                        <p className="text-xs text-on-surface-variant">{topic.lockReason}</p>
                       </div>
                     </div>
                   )}
 
                   {/* Expandable Content Area */}
-                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 overflow-hidden transition-all duration-500 ease-in-out ${
-                    isExpanded && !isLocked ? 'max-h-[1000px] mt-8 opacity-100' : 'max-h-0 opacity-0'
-                  }`}>
+                  <div className={`grid grid-cols-1 lg:grid-cols-2 gap-8 overflow-hidden transition-all duration-500 ease-in-out ${isExpanded && !isLocked ? 'max-h-[1000px] mt-8 opacity-100' : 'max-h-0 opacity-0'
+                    }`}>
                     {/* Left Column: Deep Dive Concepts */}
                     <div>
                       <div className="flex items-center gap-2 mb-6">
@@ -208,11 +223,11 @@ export default function CurriculumPage() {
                           Deep Dive Concepts
                         </h3>
                       </div>
-                      
+
                       <ul className="space-y-6">
                         {topic.concepts.map(concept => (
-                          <li 
-                            key={concept.id} 
+                          <li
+                            key={concept.id}
                             className="relative pl-6 group/concept cursor-pointer"
                             onClick={(e) => {
                               e.stopPropagation()
@@ -242,12 +257,12 @@ export default function CurriculumPage() {
 
                       <div className="space-y-3">
                         {topic.questions.map(question => (
-                          <div 
+                          <div
                             key={question.id}
                             className="bg-surface-container-low hover:bg-surface-container transition-colors rounded-xl p-4 flex items-center justify-between group cursor-pointer border border-outline-variant/10"
                             onClick={(e) => {
-                                e.stopPropagation() // Prevent toggling the topic card
-                                navigate(`/practice?questionId=${question.id}`)
+                              e.stopPropagation() // Prevent toggling the topic card
+                              navigate(`/practice?questionId=${question.id}`)
                             }}
                           >
                             <span className="font-medium text-on-surface text-sm">{question.title}</span>

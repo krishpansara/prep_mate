@@ -1,4 +1,3 @@
-import AppShell from '@components/layout/AppShell'
 import Icon from '@components/ui/Icon'
 import Badge from '@components/ui/Badge'
 import Button from '@components/ui/Button'
@@ -38,20 +37,36 @@ const diffMap: Record<DeepDiveQuestion['difficulty'], 'secondary' | 'neutral' | 
 
 export default function DeepDiveQuestionPage() {
   return (
-    <AppShell>
-      <div className="max-w-4xl mx-auto py-12 relative">
+    <div className="max-w-4xl mx-auto py-12 relative">
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary-600/10 rounded-full blur-[120px] pointer-events-none"></div>
 
         {/* Header */}
-        <header className="mb-16 relative z-10 animate-slide-up">
-          <Badge label="Deep Dive" variant="primary" uppercase className="mb-8 shadow-[0_0_15px_rgba(59,130,246,0.3)]" />
-          <h1 className="font-headline text-5xl md:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-r from-on-surface to-on-surface-variant dark:from-white dark:to-white/70 tracking-tighter mb-6">
-            Behavioral Deep Dive
-          </h1>
-          <p className="text-xl text-on-surface-variant dark:text-white/70 leading-relaxed max-w-2xl font-body">
-            Master the "why" and "when", not just the "what". These questions test your ability to reason aloud under pressure — like a real senior engineer interview.
-          </p>
-        </header>
+        <header className="mb-16 relative z-10 animate-slide-up flex flex-col items-center text-center">
+  
+  <Badge 
+    label="Deep Dive" 
+    variant="primary" 
+    uppercase 
+    className="mb-6 shadow-[0_0_15px_rgba(59,130,246,0.3)]" 
+  />
+
+  <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl font-black 
+    text-transparent bg-clip-text bg-gradient-to-r 
+    from-on-surface to-on-surface-variant 
+    dark:from-white dark:to-white/70 
+    tracking-tight mb-6 max-w-3xl">
+    
+    Behavioral Deep Dive
+  </h1>
+
+  <p className="text-lg md:text-xl text-on-surface-variant 
+    dark:text-white/70 leading-relaxed 
+    max-w-2xl font-body">
+    
+    Master the "why" and "when", not just the "what". These questions test your ability to reason aloud under pressure — like a real senior engineer interview.
+  </p>
+
+</header>
 
         {/* Questions */}
         <div className="space-y-16 relative z-10">
@@ -119,6 +134,5 @@ export default function DeepDiveQuestionPage() {
           </div>
         </div>
       </div>
-    </AppShell>
   )
 }

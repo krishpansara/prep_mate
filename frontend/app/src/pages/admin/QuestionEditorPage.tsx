@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import AdminShell from '@components/layout/AdminShell'
 import Button from '@components/ui/Button'
 import Icon from '@components/ui/Icon'
@@ -28,6 +29,9 @@ const diffBadgeMap: Record<Difficulty, 'secondary' | 'neutral' | 'error'> = {
 }
 
 export default function QuestionEditorPage() {
+  const { id }   = useParams<{ id: string }>()
+  const navigate = useNavigate()
+  const isEdit   = Boolean(id)
   const [form, setForm] = useState(initialState)
   const [newConcept, setNewConcept] = useState('')
 
@@ -47,8 +51,16 @@ export default function QuestionEditorPage() {
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4 mb-10">
         <div>
-          <p className="text-xs text-on-surface-variant uppercase tracking-widest font-semibold mb-2">Creating New Question</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight font-headline">Question Editor</h2>
+          <button
+            onClick={() => navigate('/admin/questions')}
+            className="flex items-center gap-1.5 text-xs font-semibold text-on-surface-variant uppercase tracking-widest mb-2 hover:text-on-surface transition-colors"
+          >
+            <Icon name="arrow_back" size="xs" />
+            Questions
+          </button>
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight font-headline">
+            {isEdit ? `Editing Question #${id}` : 'New Question'}
+          </h2>
         </div>
         <div className="flex items-center gap-4">
           <Button variant="ghost" size="sm">

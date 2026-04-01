@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import AdminShell from '@components/layout/AdminShell'
 import Button from '@components/ui/Button'
 import Icon from '@components/ui/Icon'
@@ -28,6 +29,7 @@ const diffBadge: Record<Concept['difficulty'], 'secondary' | 'neutral' | 'error'
 }
 
 export default function ConceptManagementPage() {
+  const navigate = useNavigate()
   return (
     <AdminShell>
       <section className="mb-10 flex flex-wrap gap-6 justify-between items-end">
@@ -37,7 +39,7 @@ export default function ConceptManagementPage() {
             Curate the core knowledge units. Concepts power the Deep Dive and learning modules.
           </p>
         </div>
-        <Button variant="primary" size="sm" icon="add" iconPosition="left">
+        <Button variant="primary" size="sm" icon="add" iconPosition="left" onClick={() => navigate('/admin/concepts/new')}>
           New Concept
         </Button>
       </section>
@@ -98,10 +100,14 @@ export default function ConceptManagementPage() {
                 </td>
                 <td className="px-6 py-5">
                   <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                    <button className="p-2 hover:bg-primary-container text-primary rounded-xl transition-colors" aria-label="Edit">
+                    <button
+                      onClick={() => navigate(`/admin/concepts/${c.id}/edit`)}
+                      className="p-2 hover:bg-primary-container text-primary rounded-xl transition-colors"
+                      aria-label="Edit concept"
+                    >
                       <Icon name="edit" size="sm" />
                     </button>
-                    <button className="p-2 hover:bg-error-container/20 text-error rounded-xl transition-colors" aria-label="Delete">
+                    <button className="p-2 hover:bg-error-container/20 text-error rounded-xl transition-colors" aria-label="Delete concept">
                       <Icon name="delete" size="sm" />
                     </button>
                   </div>
