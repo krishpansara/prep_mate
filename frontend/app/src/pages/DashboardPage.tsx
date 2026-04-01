@@ -192,7 +192,6 @@ export default function DashboardPage() {
         <section className="md:col-span-12">
           <Card variant="dark" className="group !p-12 overflow-hidden border border-accent-500/30 shadow-lg dark:shadow-[0_0_50px_rgba(168,85,247,0.2)]">
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-600/10 to-accent-600/10 dark:from-primary-600/30 dark:to-accent-600/30 mix-blend-overlay group-hover:opacity-80 transition-opacity duration-700 pointer-events-none" />
 
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
               <div className="md:col-span-8">

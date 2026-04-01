@@ -1,3 +1,4 @@
+import { useNavigate, Link } from 'react-router-dom'
 import Icon from '@components/ui/Icon'
 import type { TopicCard } from '@types-app/index'
 import Card from '@components/ui/Card'
@@ -55,9 +56,10 @@ const accentMap: Record<NonNullable<TopicCard['accentColor']>, { icon: string; b
 export default function TopicsGrid({
   title = 'Curated Learning Paths',
   subtitle = "We've stripped away the fluff. Every lesson is engineered for maximum retention and technical depth.",
-  browseHref = '#',
+  browseHref = '/library',
   cards = defaultCards,
 }: TopicsGridProps) {
+  const navigate = useNavigate()
   const largeCard = cards.find((c) => c.variant === 'large')
   const smallCards = cards.filter((c) => c.variant === 'small')
   const wideCard = cards.find((c) => c.variant === 'wide')
@@ -73,8 +75,8 @@ export default function TopicsGrid({
             </h2>
             <p className="text-lg text-on-surface-variant leading-relaxed">{subtitle}</p>
           </div>
-          <a
-            href={browseHref}
+          <Link
+            to={browseHref}
             className="text-primary-600 dark:text-primary-400 font-bold flex items-center gap-2 group border border-primary-500/30 px-6 py-3 rounded-full hover:bg-primary-500/10 transition-colors"
           >
             Browse all paths
@@ -83,14 +85,14 @@ export default function TopicsGrid({
               className="group-hover:translate-x-1 transition-transform duration-200"
               size="sm"
             />
-          </a>
+          </Link>
         </div>
 
         {/* Bento grid */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {/* Large card — spans 2 cols and 2 rows */}
           {largeCard && (
-            <Card variant="default" hover className="md:col-span-2 md:row-span-2 flex flex-col justify-between !p-10 group">
+            <Card variant="default" hover className="md:col-span-2 md:row-span-2 flex flex-col justify-between !p-10 group" onClick={() => navigate(`/library/${largeCard.id}`)}>
               <div>
                 <div className={`w-16 h-16 rounded-2xl border ${accentMap[largeCard.accentColor ?? 'primary'].bg} flex items-center justify-center mb-8 shadow-inner`}>
                   <Icon name={largeCard.icon} size="lg" className={accentMap[largeCard.accentColor ?? 'primary'].icon} />
@@ -119,6 +121,7 @@ export default function TopicsGrid({
               variant="default"
               hover
               className="!p-8 flex flex-col justify-between"
+              onClick={() => navigate(`/library/${card.id}`)}
             >
               <div className="mb-8">
                 <div className={`w-12 h-12 rounded-xl border ${accentMap[card.accentColor ?? 'primary'].bg} flex items-center justify-center mb-6`}>
@@ -132,7 +135,7 @@ export default function TopicsGrid({
 
           {/* Wide card — spans 2 cols */}
           {wideCard && (
-            <Card variant="elevated" hover className="md:col-span-2 flex items-center gap-8 !p-8 group">
+            <Card variant="elevated" hover className="md:col-span-2 flex items-center gap-8 !p-8 group" onClick={() => navigate(`/library/${wideCard.id}`)}>
               <div className="flex-1">
                 <div className="flex items-center gap-6 mb-4">
                   <div className={`w-12 h-12 rounded-xl border ${accentMap[wideCard.accentColor ?? 'tertiary'].bg} flex flex-shrink-0 items-center justify-center`}>
