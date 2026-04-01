@@ -1,8 +1,9 @@
-import { useState } from 'react'
-import { NavLink } from 'react-router-dom'
+import { useState, useRef, useEffect } from 'react'
+import { NavLink, Link } from 'react-router-dom'
 import type { ReactNode } from 'react'
 import Icon from '@components/ui/Icon'
 import ThemeToggle from '@components/ui/ThemeToggle'
+import { useAuth } from '@contexts/AuthContext'
 
 interface AdminShellProps {
   children: ReactNode
@@ -16,7 +17,7 @@ const adminNavItems = [
   { label: 'Questions', href: '/admin/questions', icon: 'quiz' },
   { label: 'Deep Dive', href: '/admin/deep-dive', icon: 'psychology' },
   { label: 'Users', href: '/admin/users', icon: 'group' },
-  { label: 'Analytics', href: '/analytics', icon: 'analytics' },
+  { label: 'Analytics', href: '/admin/analytics', icon: 'analytics' },
 ]
 
 const adminFooterItems = [
@@ -26,6 +27,19 @@ const adminFooterItems = [
 
 export default function AdminShell({ children }: AdminShellProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { user, logout } = useAuth()
+  const [dropdownOpen, setDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setDropdownOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   return (
     <div className="min-h-screen bg-background font-body relative">
@@ -207,21 +221,77 @@ export default function AdminShell({ children }: AdminShellProps) {
               Feedback
             </button>
 
-            {/* Avatar */}
-            <div className="flex items-center gap-3">
-              <div className="text-right hidden sm:block">
-                <p className="font-bold text-on-surface leading-none text-sm">Profile</p>
-                <p className="text-[10px] text-on-surface-variant font-semibold uppercase tracking-wider mt-0.5">
-                  Superuser
-                </p>
+            {/* Avatar Dropdown */}
+            {user ? (
+              <div className="relative" ref={dropdownRef}>
+                <div 
+                  className="flex items-center gap-3 cursor-pointer select-none group"
+                  onClick={() => setDropdownOpen(!dropdownOpen)}
+                  aria-haspopup="true"
+                  aria-expanded={dropdownOpen}
+                >
+                  <div className="text-right hidden sm:block">
+                    <p className="font-bold text-on-surface leading-none text-sm group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors">{user.name}</p>
+                    <p className="text-[10px] text-on-surface-variant font-semibold uppercase tracking-wider mt-0.5">
+                      {user.role}
+                    </p>
+                  </div>
+                  <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 overflow-hidden
+                    bg-primary-100 dark:bg-primary-500/20
+                    border-2 border-primary-200 dark:border-primary-400/40
+                    ring-2 ring-primary-500/20 group-hover:ring-primary-500/50 dark:ring-primary-400/20 dark:group-hover:ring-primary-400/50 transition-all">
+                    <img
+                      src={user.avatarUrl}
+                      alt={`${user.name} avatar`}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.currentTarget as HTMLImageElement).src =
+                          `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(user.name)}`
+                      }}
+                    />
+                  </div>
+                </div>
+
+                {/* Dropdown */}
+                {dropdownOpen && (
+                  <div
+                    className="absolute right-0 top-full mt-2 w-56 rounded-2xl border shadow-xl overflow-hidden
+                      bg-white border-slate-200 shadow-slate-200/80
+                      dark:bg-[#1E1E1E] dark:border-white/[0.08] dark:shadow-black/60
+                      animate-fade-in"
+                  >
+                    <div className="p-1.5 flex flex-col gap-0.5">
+                      <Link
+                        to="/dashboard"
+                        onClick={() => setDropdownOpen(false)}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all
+                          text-on-surface-variant hover:text-on-surface hover:bg-slate-100
+                          dark:text-white/60 dark:hover:text-white dark:hover:bg-white/5"
+                      >
+                        <Icon name="school" size="sm" />
+                        Learner Dashboard
+                      </Link>
+                      <div className="border-t border-slate-200 dark:border-white/[0.06] my-1" />
+                      <button
+                        onClick={() => { logout(); setDropdownOpen(false) }}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all w-full text-left
+                          text-red-600 hover:bg-red-50
+                          dark:text-red-400 dark:hover:bg-error/10"
+                      >
+                        <Icon name="logout" size="sm" />
+                        Sign Out
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-              <div className="w-9 h-9 rounded-full flex items-center justify-center flex-shrink-0 cursor-pointer
-                bg-primary-100 dark:bg-primary-500/20
-                border-2 border-primary-200 dark:border-primary-400/40
-                ring-2 ring-primary-500/20 hover:ring-primary-500/50 dark:ring-primary-400/20 dark:hover:ring-primary-400/50 transition-all">
-                <Icon name="person" size="sm" className="text-primary-700 dark:text-primary-300" />
+            ) : (
+              <div className="flex items-center gap-3">
+                <div className="w-9 h-9 rounded-full flex items-center justify-center bg-primary-100 dark:bg-primary-500/20 border-2 border-primary-200">
+                  <Icon name="person" size="sm" className="text-primary-700 dark:text-primary-300" />
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </header>
 

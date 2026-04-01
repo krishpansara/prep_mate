@@ -140,8 +140,8 @@ export default function UserManagementPage() {
           border border-slate-200 dark:border-white/[0.08]
           shadow-card-light dark:shadow-card-dark"
       >
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse">
+        <div className="overflow-x-auto w-full">
+          <table className="w-full text-left border-collapse min-w-[800px]">
             <thead>
               <tr className="bg-slate-50 dark:bg-surface-container-low/60">
                 {['User Profile', 'Joined Date', 'Progress', 'Status', 'Actions'].map((col) => (

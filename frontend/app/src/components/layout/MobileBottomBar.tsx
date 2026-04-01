@@ -7,10 +7,10 @@ interface MobileBottomBarProps {
 }
 
 const defaultItems: NavItem[] = [
-  { label: 'Algorithms', href: '/dashboard', icon: 'code' },
-  { label: 'System Design', href: '/system-design', icon: 'shutter_speed' },
-  { label: 'Insights', href: '/analytics', icon: 'analytics' },
-  { label: 'Profile', href: '/profile', icon: 'person' },
+  { label: 'Dashboard', href: '/app/dashboard', icon: 'dashboard'     },
+  { label: 'Library',   href: '/library',        icon: 'local_library' },
+  { label: 'Community', href: '/app/community',  icon: 'groups'        },
+  { label: 'Profile',   href: '/app/profile',    icon: 'person'        },
 ]
 
 export default function MobileBottomBar({

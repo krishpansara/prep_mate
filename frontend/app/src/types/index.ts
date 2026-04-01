@@ -1,3 +1,16 @@
+// ─── Auth ────────────────────────────────────────────────────────────────────
+
+export type UserRole = 'learner' | 'admin'
+
+export interface AuthUser {
+  id: string
+  name: string
+  email: string
+  role: UserRole
+  avatarUrl: string
+  joinedAt: string
+}
+
 // ─── Navigation ─────────────────────────────────────────────────────────────
 
 export interface NavItem {
@@ -5,6 +18,10 @@ export interface NavItem {
   href: string
   icon?: string
   isActive?: boolean
+  /** If true, renders as a section header (non-clickable label) instead of a nav link */
+  isSection?: boolean
+  /** If true, the link is only active when the path matches exactly (React Router `end` prop) */
+  end?: boolean
 }
 
 export interface SidebarFooterItem {

@@ -1,4 +1,3 @@
-import AppShell from '@components/layout/AppShell'
 import Card from '@components/ui/Card'
 import Badge from '@components/ui/Badge'
 import Button from '@components/ui/Button'
@@ -34,7 +33,7 @@ const streakMax = 21
 
 export default function DashboardPage() {
   return (
-    <AppShell>
+    <>
       {/* Page header */}
       <header className="mb-12 relative">
         <h1 className="text-[2rem] md:text-[3.5rem] leading-tight font-black text-on-surface dark:text-white font-headline tracking-tighter mb-4 animate-slide-up">
@@ -70,8 +69,8 @@ export default function DashboardPage() {
                 </div>
                 {/* Visual replacement for ProgressBar to ensure dark mode looks good */}
                 <div className="h-3 w-full bg-outline-variant/50 dark:bg-white/10 rounded-full overflow-hidden">
-                  <div 
-                    className="h-full bg-gradient-to-r from-primary-600 to-accent-600 dark:from-primary-500 dark:to-accent-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]" 
+                  <div
+                    className="h-full bg-gradient-to-r from-primary-600 to-accent-600 dark:from-primary-500 dark:to-accent-500 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"
                     style={{ width: `${currentPath.progressPercent}%` }}
                   />
                 </div>
@@ -85,18 +84,18 @@ export default function DashboardPage() {
 
         {/* Streak tracker — 4 cols */}
         <section className="md:col-span-4">
-          <Card variant="surface-low" className="h-full flex flex-col items-center justify-center text-center">
+          <Card hover variant="surface-low" className="h-full flex flex-col items-center justify-center text-center">
             {/* Inline simplified CircularProgress to ensure colors match theme perfectly */}
             <div className="relative w-40 h-40 mb-6 flex items-center justify-center">
               <svg className="absolute inset-0 w-full h-full transform -rotate-90">
                 <circle cx="80" cy="80" r="70" fill="transparent" stroke="currentColor" className="text-outline-variant dark:text-white/10" strokeWidth="12" />
-                <circle 
-                  cx="80" 
-                  cy="80" 
-                  r="70" 
-                  fill="transparent" 
-                  stroke="url(#streakGradient)" 
-                  strokeWidth="12" 
+                <circle
+                  cx="80"
+                  cy="80"
+                  r="70"
+                  fill="transparent"
+                  stroke="url(#streakGradient)"
+                  strokeWidth="12"
                   strokeDasharray={`${2 * Math.PI * 70}`}
                   strokeDashoffset={`${2 * Math.PI * 70 * (1 - streakDays / streakMax)}`}
                   className="transition-all duration-1000 ease-out drop-shadow-[0_0_8px_rgba(168,85,247,0.4)] dark:drop-shadow-[0_0_8px_rgba(168,85,247,0.6)]"
@@ -123,11 +122,10 @@ export default function DashboardPage() {
               {Array.from({ length: 4 }).map((_, i) => (
                 <div
                   key={i}
-                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${
-                    i < 3
+                  className={`w-10 h-10 rounded-xl flex items-center justify-center transition-all ${i < 3
                       ? 'bg-accent-500/10 dark:bg-accent-500/20 text-accent-600 dark:text-accent-400 border border-accent-500/30 shadow-[0_0_10px_rgba(168,85,247,0.2)] dark:shadow-[0_0_10px_rgba(168,85,247,0.3)]'
                       : 'bg-surface-hover dark:bg-white/5 text-outline-variant dark:text-white/20 border border-outline-variant dark:border-white/5'
-                  }`}
+                    }`}
                 >
                   <Icon
                     name="local_fire_department"
@@ -142,7 +140,7 @@ export default function DashboardPage() {
 
         {/* Activity chart */}
         <section className="md:col-span-7">
-          <Card className="h-full">
+          <Card hover className="h-full">
             <h3 className="text-xl font-bold font-headline text-on-surface dark:text-white mb-8">Activity</h3>
             <div className="flex items-end justify-between h-[200px] gap-2">
               {activityData.map((day, i) => {
@@ -164,7 +162,7 @@ export default function DashboardPage() {
 
         {/* Recent milestones */}
         <section className="md:col-span-5">
-          <Card variant="surface-low" className="h-full">
+          <Card hover variant="surface-low" className="h-full">
             <div className="flex justify-between items-center mb-8">
               <h3 className="text-xl font-bold font-headline text-on-surface dark:text-white">Recent Milestones</h3>
               <a href="#" className="text-sm font-bold text-primary-600 dark:text-primary-400 hover:text-primary-500 dark:hover:text-primary-300 hover:underline">
@@ -190,9 +188,8 @@ export default function DashboardPage() {
 
         {/* Recommendation banner */}
         <section className="md:col-span-12">
-          <Card variant="dark" className="group !p-12 overflow-hidden border border-accent-500/30 shadow-lg dark:shadow-[0_0_50px_rgba(168,85,247,0.2)]">
+          <Card hover variant="dark" className="group !p-12 overflow-hidden border border-accent-500/30 shadow-lg dark:shadow-[0_0_50px_rgba(168,85,247,0.2)]">
             {/* Gradient overlay */}
-            <div className="absolute inset-0 bg-gradient-to-r from-primary-600/10 to-accent-600/10 dark:from-primary-600/30 dark:to-accent-600/30 mix-blend-overlay group-hover:opacity-80 transition-opacity duration-700 pointer-events-none" />
 
             <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-12 items-center">
               <div className="md:col-span-8">
@@ -200,7 +197,7 @@ export default function DashboardPage() {
                   ⚡ Recommended for you
                 </span>
                 <h2 className="text-4xl md:text-5xl font-black font-headline text-on-surface dark:text-white mb-6 leading-tight tracking-tight">
-                  Mastering System Design: <br/><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600 dark:from-primary-300 dark:to-accent-300">Scalability & HA</span>
+                  Mastering System Design: <br /><span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-600 to-accent-600 dark:from-primary-300 dark:to-accent-300">Scalability & HA</span>
                 </h2>
                 <p className="text-on-surface-variant dark:text-white/80 text-lg mb-8 max-w-2xl leading-relaxed">
                   Our AI analyzed your recent activity. You're ready to tackle large-scale architecture
@@ -211,15 +208,15 @@ export default function DashboardPage() {
                 </Button>
               </div>
               <div className="hidden md:flex md:col-span-4 justify-center">
-                 <div className="w-48 h-48 bg-surface-hover dark:bg-white/5 border border-outline-variant dark:border-white/20 rounded-full flex items-center justify-center relative shadow-lg dark:shadow-[0_0_40px_rgba(255,255,255,0.1)] group-hover:scale-105 transition-transform duration-700">
-                    <div className="absolute inset-2 border border-dashed border-outline-variant dark:border-white/30 rounded-full animate-[spin_20s_linear_infinite]" />
-                    <Icon name="architecture" size="xl" className="text-primary-600 dark:text-white !text-6xl drop-shadow-[0_0_15px_rgba(59,130,246,0.4)] dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
-                 </div>
+                <div className="w-48 h-48 bg-surface-hover dark:bg-white/5 border border-outline-variant dark:border-white/20 rounded-full flex items-center justify-center relative shadow-lg dark:shadow-[0_0_40px_rgba(255,255,255,0.1)] group-hover:scale-105 transition-transform duration-700">
+                  <div className="absolute inset-2 border border-dashed border-outline-variant dark:border-white/30 rounded-full animate-[spin_20s_linear_infinite]" />
+                  <Icon name="architecture" size="xl" className="text-primary-600 dark:text-white !text-6xl drop-shadow-[0_0_15px_rgba(59,130,246,0.4)] dark:drop-shadow-[0_0_15px_rgba(255,255,255,0.8)]" />
+                </div>
               </div>
             </div>
           </Card>
         </section>
       </div>
-    </AppShell>
+    </>
   )
 }

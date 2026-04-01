@@ -61,18 +61,52 @@ export default function LibraryPage() {
       <Navbar showSearch={false} />
 
       <main className="flex-1 w-full max-w-[1200px] mx-auto px-6 py-12 lg:py-16">
-        <header className="mb-12 max-w-2xl">
-          <h1 className="text-[3rem] font-bold font-headline text-on-surface mb-4 tracking-tight">The Library</h1>
-          <p className="text-xl text-on-surface-variant leading-relaxed">
-            A curated collection of curriculum paths designed for absolute technical mastery. 
-            Choose a domain to begin your deep work session.
+
+        {/* Back to Dashboard */}
+        <button
+          onClick={() => navigate('/app/dashboard')}
+          className="flex items-center gap-1.5 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors mb-10"
+        >
+          <Icon name="arrow_back" size="sm" />
+          Back to Dashboard
+        </button>
+
+        <header className="mb-16 relative z-10 animate-slide-up flex flex-col items-center text-center">
+
+          {/* Badge / Label */}
+          <div className="mb-6">
+            <span className="px-4 py-1 text-xs font-bold uppercase tracking-widest 
+      bg-primary/10 text-primary rounded-full 
+      shadow-[0_0_15px_rgba(59,130,246,0.25)]">
+              CURATED TRACKS
+            </span>
+          </div>
+
+          {/* Main Heading */}
+          <h1 className="font-headline text-4xl sm:text-5xl md:text-6xl font-black 
+    text-transparent bg-clip-text bg-gradient-to-r 
+    from-on-surface to-on-surface-variant 
+    dark:from-white dark:to-white/70 
+    tracking-tight mb-6 max-w-3xl">
+
+            The Library
+          </h1>
+
+          {/* Subtext */}
+          <p className="text-lg md:text-xl text-on-surface-variant 
+    dark:text-white/70 leading-relaxed 
+    max-w-2xl font-body">
+
+            A curated collection of curriculum paths engineered for deep technical mastery.
+            Select a domain and initiate focused, high-leverage learning cycles.
           </p>
+
         </header>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {courses.map((course) => (
-            <Card 
-              key={course.id} 
+            <Card
+              key={course.id}
               variant={course.locked ? 'surface-low' : 'default'}
               hover={!course.locked}
               className={`flex flex-col h-full ${course.locked ? 'opacity-70 grayscale border-dashed border-2' : 'cursor-pointer'}`}
@@ -106,8 +140,8 @@ export default function LibraryPage() {
                     <span>{course.completedTopics}/{course.totalTopics} Topics</span>
                   </div>
                   <ProgressBar value={course.progress ?? 0} showLabel={false} size="sm" className="mb-6" />
-                  
-                  <button 
+
+                  <button
                     onClick={() => navigate(`/library/${course.id}`)}
                     className="flex items-center text-primary font-bold hover:text-primary-dim transition-colors pb-2"
                   >
@@ -116,16 +150,16 @@ export default function LibraryPage() {
                 </div>
               ) : (
                 <div className="mt-auto pt-4 border-t border-outline-variant/10">
-                   <div className="inline-block px-3 py-1 bg-surface-container-high text-xs font-bold text-on-surface-variant uppercase tracking-widest rounded-md">
-                     Unlocks at lvl {course.unlockLevel}
-                   </div>
+                  <div className="inline-block px-3 py-1 bg-surface-container-high text-xs font-bold text-on-surface-variant uppercase tracking-widest rounded-md">
+                    Unlocks at lvl {course.unlockLevel}
+                  </div>
                 </div>
               )}
             </Card>
           ))}
         </div>
       </main>
-      
+
       {/* Footer */}
       <footer className="py-8 text-center text-sm text-on-surface-variant border-t border-outline-variant/10 w-full">
         PrepMate © 2026. Engineering excellence through mindful preparation.

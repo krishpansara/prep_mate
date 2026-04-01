@@ -1,4 +1,3 @@
-import AppShell from '@components/layout/AppShell'
 import Icon from '@components/ui/Icon'
 import Button from '@components/ui/Button'
 import Card from '@components/ui/Card'
@@ -41,44 +40,60 @@ const tocItems = ['Introduction', 'The Clean Slate', 'Code Example', 'Architectu
 
 export default function TopicPagePython() {
   return (
-    <AppShell>
+    <>
       {/* Progress rail under navbar */}
       <div className="fixed top-[72px] left-0 w-full h-[3px] bg-white/10 z-40">
         <div className="h-full bg-gradient-to-r from-primary-500 to-accent-500 w-[35%] shadow-[0_0_10px_rgba(168,85,247,0.8)]" />
       </div>
 
-      <div className="flex min-h-screen relative">
-        <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-primary-900/20 to-transparent pointer-events-none"></div>
+      <div className="min-h-screen grid grid-cols-1 xl:grid-cols-[1fr_320px] relative">        <div className="absolute top-0 left-0 w-full h-[500px] bg-gradient-to-b from-primary-900/20 to-transparent pointer-events-none"></div>
 
         {/* Main reader */}
-        <main className="flex-1 min-w-0 relative z-10">
-          <div className="max-w-[760px] mx-auto px-6 py-16 md:py-24">
-            {/* Topic header */}
-            <header className="mb-16">
-              <div className="flex items-center gap-4 text-primary-300 font-bold mb-6 tracking-wide uppercase text-xs">
-                <span className="px-3 py-1 bg-primary-500/20 border border-primary-500/30 text-primary-300 rounded-full shadow-[0_0_10px_rgba(59,130,246,0.3)]">Module 01</span>
-                <span className="text-white/20">•</span>
-                <span className="text-white/50">15 min read</span>
+        <main className="w-full flex justify-center relative z-10">
+          <div className="w-full max-w-4xl px-6 md:px-10 py-16 md:py-24">
+            <header className="mb-20 relative z-10 flex flex-col items-center text-center">
+
+              {/* Glow background */}
+              <div className="absolute -top-20 w-[500px] h-[300px] bg-primary-600/10 blur-[120px] rounded-full pointer-events-none"></div>
+
+              {/* Badge */}
+              <div className="px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase 
+    bg-primary-500/10 border border-primary-500/30 text-primary-300 
+    shadow-[0_0_20px_rgba(59,130,246,0.25)] mb-6">
+                Deep Dive Module
               </div>
-              <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.05] tracking-tighter mb-8 font-headline drop-shadow-lg">
-                Introduction to Python
+
+              {/* Title */}
+              <h1 className="text-5xl sm:text-6xl md:text-7xl font-black 
+    text-transparent bg-clip-text bg-gradient-to-r 
+    from-white via-white to-white/70 
+    leading-[1.05] tracking-tight max-w-4xl font-headline mb-6">
+
+                Mastering Python Fundamentals
               </h1>
-              <div className="flex items-center gap-5 py-8 border-y border-white/10 mt-10">
-                <div className="w-14 h-14 rounded-full bg-white/5 border border-white/20 flex items-center justify-center flex-shrink-0 shadow-inner">
-                  <Icon name="person" className="text-white/70" size="md" />
-                </div>
-                <div className="flex-1">
-                  <div className="font-bold text-white text-lg">Alex Rivera</div>
-                  <div className="text-sm text-primary-400 font-medium">Senior Architect @ Python Core</div>
-                </div>
-                <div className="flex gap-3">
-                  <button className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all shadow-sm" aria-label="Bookmark">
-                    <Icon name="bookmark_add" size="sm" />
-                  </button>
-                  <button className="w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-white/50 hover:text-white transition-all shadow-sm" aria-label="Share">
-                    <Icon name="share" size="sm" />
-                  </button>
-                </div>
+
+              {/* Subtext (VERY IMPORTANT) */}
+              <p className="text-lg md:text-xl text-white/70 max-w-2xl leading-relaxed font-body mb-10">
+                This module goes beyond syntax — it builds the mental models required to design scalable, production-grade Python systems.
+              </p>
+
+              {/* Meta strip */}
+              <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-white/60">
+
+                <span className="px-3 py-1 rounded-full bg-white/5 border border-white/10">
+                  Module 01
+                </span>
+
+                <span>•</span>
+
+                <span>15 min read</span>
+
+                <span>•</span>
+
+                <span className="text-primary-300 font-semibold">
+                  Intermediate Level
+                </span>
+
               </div>
             </header>
 
@@ -94,7 +109,7 @@ export default function TopicPagePython() {
                   {section.highlight && (
                     <div className="my-12 p-10 bg-white/5 rounded-[2rem] border-l-4 border-l-accent-400 border border-white/5 shadow-2xl relative overflow-hidden">
                       <div className="absolute top-0 right-0 p-4 opacity-10">
-                         <Icon name="format_quote" className="!text-[120px]" />
+                        <Icon name="format_quote" className="!text-[120px]" />
                       </div>
                       <h3 className="text-lg font-bold text-accent-400 mb-4 tracking-widest uppercase relative z-10">{section.highlight.label}</h3>
                       <p className="italic text-white text-2xl font-medium leading-relaxed relative z-10">{section.highlight.quote}</p>
@@ -126,7 +141,7 @@ export default function TopicPagePython() {
                       {section.callouts.map((c) => (
                         <Card key={c.title} variant="default" hover className="!p-8 group shadow-lg">
                           <div className={`w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
-                             <Icon name={c.icon} className={c.iconColor} size="md" />
+                            <Icon name={c.icon} className={c.iconColor} size="md" />
                           </div>
                           <h4 className="font-bold text-white text-xl mb-3 font-headline">{c.title}</h4>
                           <p className="text-white/60 text-base">{c.desc}</p>
@@ -188,6 +203,6 @@ export default function TopicPagePython() {
           </div>
         </aside>
       </div>
-    </AppShell>
+    </>
   )
 }
