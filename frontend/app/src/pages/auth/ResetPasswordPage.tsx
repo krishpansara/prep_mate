@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { FormEvent } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import Icon from '@components/ui/Icon'
 
@@ -119,7 +120,7 @@ export default function ResetPasswordPage() {
   }
 
   // Main form
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     if (!canSubmit) return
     setError(null)

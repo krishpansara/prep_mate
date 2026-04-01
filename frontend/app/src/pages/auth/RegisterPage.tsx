@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@contexts/AuthContext'
 import Icon from '@components/ui/Icon'
@@ -18,7 +19,7 @@ export default function RegisterPage() {
     if (user) navigate('/app/dashboard', { replace: true })
   }, [user, navigate])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError(null)
 

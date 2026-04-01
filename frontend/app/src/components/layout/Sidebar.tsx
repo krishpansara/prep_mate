@@ -161,7 +161,7 @@ export default function Sidebar({
               item.danger ? (
                 <button
                   key={item.label}
-                  onClick={logout}
+                  onClick={() => { logout(); onClose?.() }}
                   className="flex items-center gap-3 px-3 py-2 rounded-xl text-sm border border-transparent transition-all duration-200 w-full text-left
                     text-error hover:bg-error/8 dark:hover:bg-error/15 dark:text-red-400 dark:hover:text-red-300"
                 >

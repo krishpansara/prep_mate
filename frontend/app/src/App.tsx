@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom'
 import { Suspense, lazy } from 'react'
 import Spinner from '@components/ui/Spinner'
 import { AuthProvider } from '@contexts/AuthContext'
@@ -43,6 +43,16 @@ const AdminPanelPage         = lazy(() => import('@pages/admin/AdminPanelPage'))
 
 const PageLoader = () => <Spinner size="page" label="Loading page..." />
 
+/** Redirect wrappers that preserve dynamic `:slug` params */
+const RedirectTopicSlug = () => {
+  const { slug } = useParams<{ slug: string }>()
+  return <Navigate to={`/app/learn/topics/${slug}`} replace />
+}
+const RedirectConceptSlug = () => {
+  const { slug } = useParams<{ slug: string }>()
+  return <Navigate to={`/app/learn/concepts/${slug}`} replace />
+}
+
 export default function App() {
   return (
     <BrowserRouter>
@@ -81,9 +91,9 @@ export default function App() {
             {/* ── Backward-compat redirects (old flat URLs → /app/**) ── */}
             <Route path="/dashboard"  element={<Navigate to="/app/dashboard"  replace />} />
             <Route path="/onboarding" element={<Navigate to="/app/onboarding" replace />} />
-            <Route path="/topics/:slug" element={<Navigate to="/app/learn/topics/:slug" replace />} />
-            <Route path="/concepts"   element={<Navigate to="/app/learn/concepts"       replace />} />
-            <Route path="/concepts/:slug" element={<Navigate to="/app/learn/concepts/:slug" replace />} />
+            <Route path="/topics/:slug"    element={<RedirectTopicSlug />} />
+            <Route path="/concepts"        element={<Navigate to="/app/learn/concepts"       replace />} />
+            <Route path="/concepts/:slug"  element={<RedirectConceptSlug />} />
             <Route path="/practice"   element={<Navigate to="/app/practice"            replace />} />
             <Route path="/deep-dive"  element={<Navigate to="/app/practice/deep-dive"  replace />} />
             <Route path="/community"  element={<Navigate to="/app/community"           replace />} />

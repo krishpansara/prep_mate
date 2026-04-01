@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Card from '@components/ui/Card'
 import Button from '@components/ui/Button'
 import Icon from '@components/ui/Icon'
@@ -11,6 +11,13 @@ export default function ProfilePage() {
   const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl ?? '')
   const [saved, setSaved]       = useState(false)
   const [editing, setEditing]   = useState(false)
+  const savedTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    return () => {
+      if (savedTimerRef.current) clearTimeout(savedTimerRef.current)
+    }
+  }, [])
 
   if (!user) return null
 
@@ -23,7 +30,8 @@ export default function ProfilePage() {
     }
     setEditing(false)
     setSaved(true)
-    setTimeout(() => setSaved(false), 3000)
+    if (savedTimerRef.current) clearTimeout(savedTimerRef.current)
+    savedTimerRef.current = setTimeout(() => setSaved(false), 3000)
   }
 
   const stats = [

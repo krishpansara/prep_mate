@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import type { FormEvent } from 'react'
 import { Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { useAuth } from '@contexts/AuthContext'
 import Icon from '@components/ui/Icon'
@@ -29,7 +30,7 @@ export default function LoginPage() {
     if (user) navigate(redirect, { replace: true })
   }, [user, navigate, redirect])
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setError(null)
     try {

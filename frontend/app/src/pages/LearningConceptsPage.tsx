@@ -121,7 +121,7 @@ export default function LearningConceptsPage() {
           {concepts.map((concept, index) => (
             <article
               key={concept.id}
-              onClick={() => navigate('/concepts/big-o')}
+              onClick={() => navigate(`/app/learn/concepts/${concept.id}`)}
               className={`rounded-2xl border transition-all duration-500 group overflow-hidden relative cursor-pointer ${
                 concept.completed
                   ? 'bg-slate-50 dark:bg-white/[0.03] border-slate-200 dark:border-white/5 hover:bg-slate-100 dark:hover:bg-white/[0.05]'

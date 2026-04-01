@@ -60,7 +60,7 @@ export default function OnboardingPage() {
     } else {
       localStorage.setItem(ONBOARDING_KEY, 'true')
       localStorage.setItem('prepmate_onboarding_data', JSON.stringify(selections))
-      navigate('/dashboard', { replace: true })
+      navigate('/app/dashboard', { replace: true })
     }
   }
 

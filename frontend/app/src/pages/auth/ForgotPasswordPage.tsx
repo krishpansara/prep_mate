@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@components/ui/Icon'
 
@@ -7,7 +8,7 @@ export default function ForgotPasswordPage() {
   const [submitted, setSubmitted]   = useState(false)
   const [isLoading, setIsLoading]   = useState(false)
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     await new Promise((r) => setTimeout(r, 800))

@@ -1,4 +1,4 @@
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 import Card from '@components/ui/Card'
 import Badge from '@components/ui/Badge'
 import Button from '@components/ui/Button'
@@ -135,6 +135,7 @@ const DIFFICULTY_VARIANT: Record<string, 'primary' | 'secondary' | 'neutral'> = 
 
 export default function ConceptDetailPage() {
   const { slug } = useParams<{ slug: string }>()
+  const navigate = useNavigate()
   const concept = slug ? CONCEPTS[slug] : undefined
 
   if (!concept) {
@@ -145,8 +146,8 @@ export default function ConceptDetailPage() {
         <p className="text-on-surface-variant dark:text-white/60 mb-6">
           The concept <code className="font-mono bg-slate-100 dark:bg-white/10 px-2 py-0.5 rounded text-sm">{slug}</code> doesn't exist yet.
         </p>
-        <Button variant="primary" icon="arrow_back">
-          <Link to="/app/learn/concepts">Back to Concepts</Link>
+        <Button variant="primary" icon="arrow_back" onClick={() => navigate('/app/learn/concepts')}>
+          Back to Concepts
         </Button>
       </div>
     )
@@ -232,7 +233,7 @@ export default function ConceptDetailPage() {
                 return related ? (
                   <Link
                     key={relSlug}
-                    to={`/concepts/${relSlug}`}
+                    to={`/app/learn/concepts/${relSlug}`}
                     className="flex items-center gap-3 p-3 rounded-xl transition-all
                       hover:bg-slate-100 dark:hover:bg-white/5"
                   >
@@ -253,8 +254,8 @@ export default function ConceptDetailPage() {
             <p className="text-xs text-on-surface-variant dark:text-white/50 mb-4">
               Reinforce this concept with targeted practice questions.
             </p>
-            <Button variant="primary" size="sm" icon="fitness_center" className="w-full justify-center">
-              <Link to="/practice">Go to Practice</Link>
+            <Button variant="primary" size="sm" icon="fitness_center" className="w-full justify-center" onClick={() => navigate('/app/practice')}>
+              Go to Practice
             </Button>
           </Card>
         </div>

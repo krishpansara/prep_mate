@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import type { ReactNode } from 'react'
 import { Link, useParams, useNavigate } from 'react-router-dom'
 import Icon from '@components/ui/Icon'
 
@@ -16,6 +17,7 @@ async function verifyEmailToken(token: string): Promise<void> {
 export default function VerifyEmailPage() {
   const { token }  = useParams<{ token: string }>()
   const navigate   = useNavigate()
+  const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
   const [state, setState]             = useState<VerifyState>('verifying')
   const [resending, setResending]     = useState(false)
@@ -31,7 +33,7 @@ export default function VerifyEmailPage() {
       await verifyEmailToken(token)
       setState('success')
       // Auto-redirect to onboarding after 3 s
-      setTimeout(() => navigate('/app/onboarding', { replace: true }), 3000)
+      redirectTimerRef.current = setTimeout(() => navigate('/app/onboarding', { replace: true }), 3000)
     } catch {
       setState('error')
     }
@@ -39,6 +41,9 @@ export default function VerifyEmailPage() {
 
   useEffect(() => {
     attemptVerification()
+    return () => {
+      if (redirectTimerRef.current) clearTimeout(redirectTimerRef.current)
+    }
   }, [attemptVerification])
 
   const handleResend = async () => {
@@ -49,7 +54,7 @@ export default function VerifyEmailPage() {
   }
 
   // ── Shared chrome ────────────────────────────────────────────────────────
-  const PageShell = ({ children }: { children: React.ReactNode }) => (
+  const PageShell = ({ children }: { children: ReactNode }) => (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="pointer-events-none fixed inset-0 overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-primary-500/10 dark:bg-primary-500/15 rounded-full blur-3xl" />
