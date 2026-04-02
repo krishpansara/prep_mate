@@ -82,6 +82,27 @@ const mockCourseData: Record<string, { title: string; subtitle: string; descript
         ]
       }
     ]
+  },
+  'sys-design': {
+    title: 'System Design',
+    subtitle: 'CURRICULUM',
+    description: 'Architecting large scale distributed systems from DNS to eventual consistency.',
+    topics: [
+      {
+        id: 'dist-systems',
+        title: 'Distributed Systems',
+        tag: 'FOUNDATIONAL',
+        progress: 25,
+        locked: false,
+        concepts: [
+          { id: 'c10', title: 'CAP Theorem', description: 'Consistency, Availability, Partition Tolerance.' },
+          { id: 'c11', title: 'Consistent Hashing', description: 'Distributing data across nodes.' }
+        ],
+        questions: [
+          { id: 'q10', title: 'Design a Key-Value Store', difficulty: 'Medium' }
+        ]
+      }
+    ]
   }
 }
 
@@ -96,8 +117,33 @@ export default function CurriculumPage() {
   const { courseId } = useParams<{ courseId: string }>()
   const navigate = useNavigate()
 
-  // Default to dsa if course is not found for mockup purposes
-  const courseData = mockCourseData[courseId || 'dsa'] || mockCourseData['dsa']
+  const courseData = courseId ? mockCourseData[courseId] : undefined
+
+  // ── Not found state ───────────────────────────────────────────────────────
+  if (!courseData) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Navbar showSearch={false} />
+        <main className="flex-1 flex flex-col items-center justify-center text-center px-6 py-24">
+          <div className="w-20 h-20 rounded-3xl bg-surface-container flex items-center justify-center mb-8">
+            <Icon name="search_off" className="text-on-surface-variant !text-4xl" />
+          </div>
+          <h1 className="text-3xl font-black font-headline text-on-surface mb-3">Course Not Found</h1>
+          <p className="text-on-surface-variant max-w-sm mb-8">
+            The course{' '}
+            <code className="px-2 py-0.5 bg-surface-container rounded-lg text-sm font-mono">{courseId}</code>{' '}
+            doesn't exist yet. Browse the library to find available tracks.
+          </p>
+          <button
+            onClick={() => navigate('/library')}
+            className="px-6 py-3 bg-primary text-on-primary rounded-xl font-bold hover:bg-primary/90 transition-colors"
+          >
+            Browse Library
+          </button>
+        </main>
+      </div>
+    )
+  }
 
   const [expandedTopicId, setExpandedTopicId] = useState<string | null>(courseData.topics[0]?.id || null)
 

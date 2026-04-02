@@ -1,7 +1,8 @@
 import { useState } from 'react'
 import type { FormEvent } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import Icon from '@components/ui/Icon'
+import { authApi } from '@lib/api'
 
 // ─── Password-strength helper ─────────────────────────────────────────────────
 
@@ -21,7 +22,8 @@ function getStrength(pw: string): { score: number; label: string; color: string 
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ResetPasswordPage() {
-  const { token } = useParams<{ token: string }>()
+  const [searchParams] = useSearchParams()
+  const token = searchParams.get('token') ?? undefined
   const navigate  = useNavigate()
 
   const [password, setPassword]   = useState('')
@@ -122,13 +124,17 @@ export default function ResetPasswordPage() {
   // Main form
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
-    if (!canSubmit) return
+    if (!canSubmit || !token) return
     setError(null)
     setIsLoading(true)
-    // Simulate API call — replace with real reset endpoint
-    await new Promise((r) => setTimeout(r, 900))
-    setIsLoading(false)
-    setDone(true)
+    try {
+      await authApi.resetPassword(token, password)
+      setDone(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Reset failed. The link may have expired.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

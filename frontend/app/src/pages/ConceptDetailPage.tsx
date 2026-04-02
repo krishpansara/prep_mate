@@ -1,142 +1,57 @@
+import { useState, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import Card from '@components/ui/Card'
 import Badge from '@components/ui/Badge'
 import Button from '@components/ui/Button'
 import Icon from '@components/ui/Icon'
-
-// ─── Mock Concept Data ───────────────────────────────────────────────────────
-
-interface Concept {
-  slug: string
-  title: string
-  category: string
-  difficulty: 'Beginner' | 'Intermediate' | 'Advanced'
-  readTime: string
-  description: string
-  keyPoints: string[]
-  codeExample: { language: string; code: string }
-  relatedSlugs: string[]
-}
-
-const CONCEPTS: Record<string, Concept> = {
-  'big-o': {
-    slug: 'big-o',
-    title: 'Big O Notation',
-    category: 'Algorithms',
-    difficulty: 'Beginner',
-    readTime: '8 min read',
-    description:
-      'Big O notation is the mathematical language we use to describe how the runtime or space requirements of an algorithm grow as the input size grows. It focuses on the dominant term and ignores constants.',
-    keyPoints: [
-      'O(1) — Constant time: hash map lookups, array index access',
-      'O(log n) — Logarithmic: binary search, balanced BST operations',
-      'O(n) — Linear: single-pass array traversal',
-      'O(n log n) — Linearithmic: merge sort, heap sort',
-      'O(n²) — Quadratic: nested loops, bubble sort',
-      'O(2ⁿ) — Exponential: recursive subsets, backtracking',
-    ],
-    codeExample: {
-      language: 'python',
-      code: `# O(1) — Constant
-def get_first(arr):
-    return arr[0]
-
-# O(n) — Linear
-def find_max(arr):
-    max_val = arr[0]
-    for item in arr:       # iterates n times
-        if item > max_val:
-            max_val = item
-    return max_val
-
-# O(n²) — Quadratic
-def has_duplicate(arr):
-    for i in range(len(arr)):         # n
-        for j in range(i + 1, len(arr)):  # n
-            if arr[i] == arr[j]:
-                return True
-    return False`,
-    },
-    relatedSlugs: ['binary-search', 'merge-sort', 'dynamic-programming'],
-  },
-  'binary-search': {
-    slug: 'binary-search',
-    title: 'Binary Search',
-    category: 'Algorithms',
-    difficulty: 'Beginner',
-    readTime: '6 min read',
-    description:
-      'Binary search is a classic O(log n) algorithm for finding a target value in a sorted array by repeatedly halving the search space.',
-    keyPoints: [
-      'Requires the array to be sorted first',
-      'Each iteration halves the search space',
-      'Works for monotonic functions, not just arrays',
-      "Classic pitfall: off-by-one errors in lo/hi bounds",
-    ],
-    codeExample: {
-      language: 'python',
-      code: `def binary_search(arr, target):
-    lo, hi = 0, len(arr) - 1
-    while lo <= hi:
-        mid = (lo + hi) // 2
-        if arr[mid] == target:
-            return mid
-        elif arr[mid] < target:
-            lo = mid + 1
-        else:
-            hi = mid - 1
-    return -1`,
-    },
-    relatedSlugs: ['big-o', 'merge-sort'],
-  },
-  'merge-sort': {
-    slug: 'merge-sort',
-    title: 'Merge Sort',
-    category: 'Sorting',
-    difficulty: 'Intermediate',
-    readTime: '10 min read',
-    description:
-      'Merge sort is a stable, O(n log n) divide-and-conquer sorting algorithm. It repeatedly splits the array in half, sorts each half recursively, then merges them.',
-    keyPoints: [
-      'Time: O(n log n) in all cases',
-      'Space: O(n) auxiliary — not in-place',
-      'Stable sort (preserves order of equal elements)',
-      'Preferred for linked lists over quick sort',
-    ],
-    codeExample: {
-      language: 'python',
-      code: `def merge_sort(arr):
-    if len(arr) <= 1:
-        return arr
-    mid = len(arr) // 2
-    left  = merge_sort(arr[:mid])
-    right = merge_sort(arr[mid:])
-    return merge(left, right)
-
-def merge(left, right):
-    result = []
-    i = j = 0
-    while i < len(left) and j < len(right):
-        if left[i] <= right[j]:
-            result.append(left[i]); i += 1
-        else:
-            result.append(right[j]); j += 1
-    return result + left[i:] + right[j:]`,
-    },
-    relatedSlugs: ['big-o', 'binary-search'],
-  },
-}
-
-const DIFFICULTY_VARIANT: Record<string, 'primary' | 'secondary' | 'neutral'> = {
-  Beginner:     'primary',
-  Intermediate: 'neutral',
-  Advanced:     'secondary',
-}
+import { conceptsApi, progressApi, type ApiConcept, type ApiProgress } from '@lib/api'
 
 export default function ConceptDetailPage() {
   const { slug } = useParams<{ slug: string }>()
   const navigate = useNavigate()
-  const concept = slug ? CONCEPTS[slug] : undefined
+  
+  const [concept, setConcept] = useState<ApiConcept | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [progressData, setProgressData] = useState<ApiProgress[]>([])
+  const [isMarking, setIsMarking] = useState(false)
+
+  useEffect(() => {
+    if (!slug) return
+    Promise.all([
+      conceptsApi.getBySlug(slug).then(setConcept),
+      progressApi.list().then(setProgressData)
+    ])
+      .catch(console.error)
+      .finally(() => setLoading(false))
+  }, [slug])
+
+  const isCompleted = concept && progressData.some(p => p.completedConcepts?.includes(concept._id))
+
+  const handleMarkAsDone = async () => {
+    if (!concept || isCompleted || isMarking) return
+    setIsMarking(true)
+    try {
+      const updatedProgress = await progressApi.markConceptCompleted(concept._id)
+      setProgressData((prev) => {
+        const getTopicId = (t: any) => t && typeof t === 'object' ? t._id : t;
+        const uId = getTopicId(updatedProgress.topicId);
+        const existing = prev.find(p => getTopicId(p.topicId) === uId);
+        if (existing) {
+          return prev.map(p => p === existing ? updatedProgress : p)
+        }
+        return [...prev, updatedProgress]
+      })
+    } catch (err) {
+      console.error('Failed to mark concept as done', err)
+      alert('Failed to mark as done.')
+    } finally {
+      setIsMarking(false)
+    }
+  }
+
+  if (loading) {
+    return <div className="p-10 text-center text-on-surface-variant animate-pulse">Loading Concept...</div>
+  }
 
   if (!concept) {
     return (
@@ -155,100 +70,77 @@ export default function ConceptDetailPage() {
 
   return (
     <>
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-sm text-on-surface-variant dark:text-white/50 mb-8">
-        <Link to="/app/learn/concepts" className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium">
-          Concepts
-        </Link>
-        <Icon name="chevron_right" size="sm" />
-        <span className="text-on-surface dark:text-white font-semibold">{concept.title}</span>
-      </nav>
+    <nav className="flex items-center justify-start gap-1 text-sm text-on-surface-variant dark:text-white/50 mb-8">
+  <Link 
+    to="/app/learn/concepts" 
+    className="hover:text-primary-600 dark:hover:text-primary-400 transition-colors font-medium"
+  >
+    Concepts
+  </Link>
+
+  <Icon name="chevron_right" size="sm" />
+
+  <span className="text-on-surface dark:text-white font-semibold">
+    {concept.title}
+  </span>
+</nav>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Main content */}
         <div className="lg:col-span-2 flex flex-col gap-6">
-          {/* Header */}
           <Card variant="elevated">
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div>
                 <div className="flex items-center gap-2 flex-wrap mb-3">
-                  <Badge label={concept.category} variant="neutral" />
-                  <Badge label={concept.difficulty} variant={DIFFICULTY_VARIANT[concept.difficulty]} />
+                  <Badge label={typeof concept.topicId === 'object' ? (concept.topicId as any).name : 'Topic'} variant="neutral" />
+                  <Badge label={concept.difficulty} variant={concept.difficulty === 'HARD' ? 'error' : concept.difficulty === 'MEDIUM' ? 'neutral' : 'secondary'} />
                 </div>
                 <h1 className="text-3xl font-black font-headline text-on-surface dark:text-white tracking-tight mb-2">
                   {concept.title}
                 </h1>
-                <div className="flex items-center gap-1.5 text-sm text-on-surface-variant dark:text-white/50">
-                  <Icon name="schedule" size="sm" />
-                  {concept.readTime}
-                </div>
+              </div>
+              <div className="flex items-center">
+                {isCompleted ? (
+                  <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 rounded-xl font-bold text-sm">
+                    <Icon name="check_circle" size="sm" />
+                    Completed
+                  </div>
+                ) : (
+                  <Button variant="primary" icon="done" onClick={handleMarkAsDone} disabled={isMarking}>
+                    {isMarking ? 'Marking...' : 'Mark as Done'}
+                  </Button>
+                )}
               </div>
             </div>
-
-            <p className="text-on-surface-variant dark:text-white/75 leading-relaxed text-base mt-6">
-              {concept.description}
+            <p className="text-on-surface-variant dark:text-white/75 leading-relaxed text-lg mt-4 font-medium italic border-l-4 border-primary pl-4">
+              {concept.summary}
             </p>
           </Card>
 
-          {/* Key Points */}
           <Card>
             <h2 className="text-lg font-bold text-on-surface dark:text-white mb-5 flex items-center gap-2">
-              <Icon name="key" size="sm" className="text-primary-600 dark:text-primary-400" />
-              Key Points
+              <Icon name="subject" size="sm" className="text-primary-600 dark:text-primary-400" />
+              Content details
             </h2>
-            <ul className="space-y-3">
-              {concept.keyPoints.map((point, i) => (
-                <li key={i} className="flex items-start gap-3">
-                  <span className="w-6 h-6 rounded-lg bg-primary-500/10 dark:bg-primary-500/20 text-primary-600 dark:text-primary-400 flex items-center justify-center flex-shrink-0 text-xs font-black mt-0.5">
-                    {i + 1}
-                  </span>
-                  <span className="text-sm text-on-surface dark:text-white/80 leading-relaxed">{point}</span>
-                </li>
-              ))}
-            </ul>
-          </Card>
-
-          {/* Code Example */}
-          <Card variant="dark">
-            <h2 className="text-lg font-bold text-on-surface dark:text-white mb-5 flex items-center gap-2">
-              <Icon name="code" size="sm" className="text-accent-500" />
-              Code Example
-              <Badge label={concept.codeExample.language} variant="neutral" className="uppercase text-xs ml-auto" />
-            </h2>
-            <pre className="overflow-x-auto rounded-xl p-5 text-sm leading-relaxed font-mono
-              bg-[#0d1117] text-green-400
-              dark:bg-black/40 dark:text-green-300">
-              <code>{concept.codeExample.code}</code>
-            </pre>
+            <div className="prose dark:prose-invert max-w-none text-on-surface dark:text-white/80 font-body">
+              {/* Very basic manual Markdown approximation for display. In production use ReactMarkdown */}
+              {concept.body.split('\n').map((line, i) => {
+                if (line.startsWith('## ')) return <h2 key={i} className="text-2xl font-bold mt-6 mb-4">{line.replace('## ', '')}</h2>
+                if (line.startsWith('### ')) return <h3 key={i} className="text-xl font-bold mt-4 mb-2">{line.replace('### ', '')}</h3>
+                if (line.startsWith('- ')) return <li key={i} className="ml-4 list-disc">{line.replace('- ', '')}</li>
+                if (line.trim() === '') return <div key={i} className="h-4" />
+                if (line.startsWith('```')) return null
+                return <p key={i} className="mb-4">{line}</p>
+              })}
+            </div>
+            {concept.hasCode && (
+               <div className="mt-8 p-4 bg-surface-container-lowest border border-outline-variant/20 rounded-xl">
+                 <p className="text-sm text-on-surface-variant flex items-center gap-2"><Icon name="code" size="sm"/> This concept includes code samples in the body.</p>
+               </div>
+            )}
           </Card>
         </div>
 
-        {/* Sidebar */}
         <div className="flex flex-col gap-4">
-          <Card variant="surface-low">
-            <h3 className="font-bold text-on-surface dark:text-white mb-4">Related Concepts</h3>
-            <div className="flex flex-col gap-2">
-              {concept.relatedSlugs.map((relSlug) => {
-                const related = CONCEPTS[relSlug]
-                return related ? (
-                  <Link
-                    key={relSlug}
-                    to={`/app/learn/concepts/${relSlug}`}
-                    className="flex items-center gap-3 p-3 rounded-xl transition-all
-                      hover:bg-slate-100 dark:hover:bg-white/5"
-                  >
-                    <Icon name="article" size="sm" className="text-primary-600 dark:text-primary-400" />
-                    <div>
-                      <div className="text-sm font-semibold text-on-surface dark:text-white">{related.title}</div>
-                      <div className="text-xs text-on-surface-variant dark:text-white/40">{related.difficulty}</div>
-                    </div>
-                    <Icon name="chevron_right" size="sm" className="ml-auto text-on-surface-variant" />
-                  </Link>
-                ) : null
-              })}
-            </div>
-          </Card>
-
           <Card>
             <h3 className="font-bold text-on-surface dark:text-white mb-2">Practice This</h3>
             <p className="text-xs text-on-surface-variant dark:text-white/50 mb-4">

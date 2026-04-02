@@ -17,7 +17,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Learn',             href: '#',                       isSection: true, icon: '' },
   { label: 'Library',           href: '/library',                icon: 'local_library', end: true },
   { label: 'Concepts',          href: '/app/learn/concepts',     icon: 'school',        end: true },
-  { label: 'Topics',            href: '/app/learn/topics/python',icon: 'book',          end: true },
+
 
   // ── Practice ──────────────────────────────────────
   { label: 'Practice',          href: '#',                       isSection: true, icon: '' },

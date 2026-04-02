@@ -1,30 +1,32 @@
+import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import AdminShell from '@components/layout/AdminShell'
+import { adminApi } from '@lib/api'
 import Icon from '@components/ui/Icon'
 import ProgressBar from '@components/ui/ProgressBar'
 
-const metrics = [
+const mockMetrics = [
   {
     label: 'Total Users',
-    value: '12,402',
+    value: '0',
     icon: 'group',
-    trend: '+4.2% from last month',
+    trend: 'Real-time database sync',
     trendColor: 'text-success',
-    trendIcon: 'trending_up',
+    trendIcon: 'sync',
   },
   {
     label: 'Total Topics',
-    value: '24',
+    value: '0',
     icon: 'category',
-    trend: '6 topics added this quarter',
+    trend: 'Active curriculum paths',
     trendColor: 'text-on-surface-variant',
     trendIcon: 'inventory_2',
   },
   {
     label: 'Total Questions',
-    value: '1,250',
+    value: '0',
     icon: 'quiz',
-    trend: '98% verified accuracy',
+    trend: 'In the question bank',
     trendColor: 'text-primary',
     trendIcon: 'verified',
   },
@@ -78,6 +80,19 @@ const topicDistribution = [
 ]
 
 export default function AdminDashboardPage() {
+  const [metrics, setMetrics] = useState(mockMetrics)
+
+  useEffect(() => {
+    adminApi.getAnalytics().then((res) => {
+      setMetrics([
+        { ...mockMetrics[0], value: res.totalUsers.toString() },
+        { ...mockMetrics[1], value: res.totalTopics.toString() },
+        { ...mockMetrics[2], value: res.totalQuestions.toString() },
+        mockMetrics[3],
+      ])
+    }).catch(console.error)
+  }, [])
+
   return (
     <AdminShell>
       {/* Hero heading */}

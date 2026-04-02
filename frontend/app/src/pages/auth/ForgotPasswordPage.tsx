@@ -2,18 +2,26 @@ import { useState } from 'react'
 import type { FormEvent } from 'react'
 import { Link } from 'react-router-dom'
 import Icon from '@components/ui/Icon'
+import { authApi } from '@lib/api'
 
 export default function ForgotPasswordPage() {
   const [email, setEmail]           = useState('')
   const [submitted, setSubmitted]   = useState(false)
   const [isLoading, setIsLoading]   = useState(false)
+  const [error, setError]           = useState<string | null>(null)
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault()
+    setError(null)
     setIsLoading(true)
-    await new Promise((r) => setTimeout(r, 800))
-    setIsLoading(false)
-    setSubmitted(true)
+    try {
+      await authApi.forgotPassword(email.trim())
+      setSubmitted(true)
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong.')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -87,6 +95,12 @@ export default function ForgotPasswordPage() {
                     />
                   </div>
                 </div>
+
+                {error && (
+                  <div role="alert" className="flex items-center gap-2 p-3 rounded-xl text-sm font-medium bg-red-50 border border-red-200 text-red-700 dark:bg-red-500/10 dark:border-red-500/30 dark:text-red-400">
+                    {error}
+                  </div>
+                )}
 
                 <button
                   type="submit"

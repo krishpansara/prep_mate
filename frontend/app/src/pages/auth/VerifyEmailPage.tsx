@@ -1,21 +1,14 @@
 import { useState, useEffect, useCallback, useRef } from 'react'
 import type { ReactNode } from 'react'
-import { Link, useParams, useNavigate } from 'react-router-dom'
+import { Link, useSearchParams, useNavigate } from 'react-router-dom'
 import Icon from '@components/ui/Icon'
+import { authApi } from '@lib/api'
 
 type VerifyState = 'verifying' | 'success' | 'error'
 
-// Simulates calling the verify-email API; replace with a real fetch when backend is ready
-async function verifyEmailToken(token: string): Promise<void> {
-  await new Promise((r) => setTimeout(r, 1200))
-  // Treat any token starting with "invalid" as a failure for demo purposes
-  if (token.startsWith('invalid')) {
-    throw new Error('Token is expired or invalid.')
-  }
-}
-
 export default function VerifyEmailPage() {
-  const { token }  = useParams<{ token: string }>()
+  const [searchParams] = useSearchParams()
+  const token = searchParams.get('token') ?? undefined
   const navigate   = useNavigate()
   const redirectTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
@@ -30,10 +23,10 @@ export default function VerifyEmailPage() {
     }
     setState('verifying')
     try {
-      await verifyEmailToken(token)
+      await authApi.verifyEmail(token)
       setState('success')
-      // Auto-redirect to onboarding after 3 s
-      redirectTimerRef.current = setTimeout(() => navigate('/app/onboarding', { replace: true }), 3000)
+      // Auto-redirect to login after 3 s
+      redirectTimerRef.current = setTimeout(() => navigate('/login', { replace: true }), 3000)
     } catch {
       setState('error')
     }

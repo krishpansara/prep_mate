@@ -65,6 +65,7 @@ export default defineConfig({
       '@contexts': path.resolve(__dirname, './src/contexts'),
       '@types-app': path.resolve(__dirname, './src/types'),
       '@design-system': path.resolve(__dirname, './src/design-system'),
+      '@lib': path.resolve(__dirname, './src/lib'),
     },
   },
 })

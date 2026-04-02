@@ -189,6 +189,16 @@ export default function Navbar({
                   {/* Menu items */}
                   <div className="p-1.5 flex flex-col gap-0.5">
                     <Link
+                      to="/app/dashboard"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all
+                        text-on-surface-variant hover:text-on-surface hover:bg-slate-100
+                        dark:text-white/60 dark:hover:text-white dark:hover:bg-white/[0.06]"
+                    >
+                      <Icon name="dashboard" size="sm" />
+                      Dashboard
+                    </Link>
+                    <Link
                       to="/app/profile"
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all
@@ -208,7 +218,7 @@ export default function Navbar({
                       <Icon name="settings" size="sm" />
                       Settings
                     </Link>
-                    {user.role === 'admin' && (
+                    {user.role === 'ADMIN' && (
                       <Link
                         to="/admin"
                         onClick={() => setDropdownOpen(false)}

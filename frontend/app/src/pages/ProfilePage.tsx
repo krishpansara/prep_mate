@@ -6,7 +6,7 @@ import Badge from '@components/ui/Badge'
 import { useAuth } from '@contexts/AuthContext'
 
 export default function ProfilePage() {
-  const { user, logout } = useAuth()
+  const { user, logout, updateProfile } = useAuth()
   const [name, setName]         = useState(user?.name ?? '')
   const [avatarUrl, setAvatarUrl] = useState(user?.avatarUrl ?? '')
   const [saved, setSaved]       = useState(false)
@@ -22,12 +22,7 @@ export default function ProfilePage() {
   if (!user) return null
 
   const handleSave = () => {
-    // Mock: update localStorage-persisted user
-    const raw = localStorage.getItem('prepmate_session')
-    if (raw) {
-      const parsed = JSON.parse(raw)
-      localStorage.setItem('prepmate_session', JSON.stringify({ ...parsed, name, avatarUrl }))
-    }
+    updateProfile({ name, avatarUrl })
     setEditing(false)
     setSaved(true)
     if (savedTimerRef.current) clearTimeout(savedTimerRef.current)
