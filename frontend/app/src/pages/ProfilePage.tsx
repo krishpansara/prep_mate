@@ -70,13 +70,13 @@ export default function ProfilePage() {
             <p className="text-sm text-on-surface-variant dark:text-white/60 mt-1 mb-3">{user.email}</p>
 
             <Badge
-              label={user.role === 'admin' ? 'Admin' : 'Learner'}
-              variant={user.role === 'admin' ? 'secondary' : 'primary'}
+              label={user.role === 'ADMIN' ? 'Admin' : 'Learner'}
+              variant={user.role === 'ADMIN' ? 'secondary' : 'primary'}
               className="mb-5"
             />
 
             <div className="text-xs text-on-surface-variant dark:text-white/40 border-t border-slate-200 dark:border-white/[0.06] pt-4">
-              Member since <strong className="text-on-surface dark:text-white">{user.joinedAt}</strong>
+              Member since <strong className="text-on-surface dark:text-white">{new Date(user.createdAt).toLocaleDateString()}</strong>
             </div>
 
             <button
@@ -162,7 +162,7 @@ export default function ProfilePage() {
                   <Button variant="primary" size="sm" onClick={handleSave} disabled={!name.trim()}>
                     Save Changes
                   </Button>
-                  <Button variant="ghost" size="sm" onClick={() => { setEditing(false); setName(user.name); setAvatarUrl(user.avatarUrl) }}>
+                  <Button variant="ghost" size="sm" onClick={() => { setEditing(false); setName(user.name); setAvatarUrl(user.avatarUrl || '') }}>
                     Cancel
                   </Button>
                 </div>
