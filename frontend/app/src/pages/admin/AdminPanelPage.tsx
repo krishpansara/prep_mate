@@ -1,20 +1,15 @@
+import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import AdminShell from '@components/layout/AdminShell'
 import Icon from '@components/ui/Icon'
 import Badge from '@components/ui/Badge'
 import Button from '@components/ui/Button'
-
-const deepDiveQuestions = [
-  { id: 'dd1', question: 'Explain the difference between a Stack and a Queue.', topic: 'Data Structures', difficulty: 'foundational', status: 'published' as const },
-  { id: 'dd2', question: 'Why is the average time complexity of a Hash Table O(1)?', topic: 'Algorithms', difficulty: 'intermediate', status: 'published' as const },
-  { id: 'dd3', question: 'When would you choose a Trie over a Hash Map?', topic: 'Data Structures', difficulty: 'advanced', status: 'draft' as const },
-  { id: 'dd4', question: 'Describe the STAR method for behavioral questions.', topic: 'Behavioral', difficulty: 'foundational', status: 'published' as const },
-  { id: 'dd5', question: 'How do you explain a design decision when you were wrong?', topic: 'Behavioral', difficulty: 'intermediate', status: 'draft' as const },
-]
+import { conceptsApi, type ApiConcept } from '@lib/api'
 
 const diffBadge: Record<string, 'secondary' | 'neutral' | 'error'> = {
-  foundational: 'secondary',
-  intermediate: 'neutral',
-  advanced: 'error',
+  EASY: 'secondary',
+  MEDIUM: 'neutral',
+  HARD: 'error',
 }
 
 const selectClass = [
@@ -26,6 +21,38 @@ const selectClass = [
 ].join(' ')
 
 export default function AdminPanelPage() {
+  const navigate = useNavigate()
+  const [concepts, setConcepts] = useState<ApiConcept[]>([])
+  const [loading, setLoading] = useState(true)
+
+  const fetchConcepts = async () => {
+    setLoading(true)
+    try {
+      const res = await conceptsApi.adminList()
+      // Optional: If you only want to show behavioral deep dives, 
+      // you could filter here based on topic slug. But we will show all in Deep Dive for now, or match any keyword.
+      setConcepts(res.data)
+    } catch (err) {
+      console.error(err)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    fetchConcepts()
+  }, [])
+
+  const handleDelete = async (id: string) => {
+    if (!confirm('Delete this deep dive concept?')) return
+    try {
+      await conceptsApi.delete(id)
+      setConcepts(c => c.filter(x => x._id !== id))
+    } catch (err) {
+      alert('Failed to delete concept')
+    }
+  }
+
   return (
     <AdminShell>
       <section className="mb-10 flex flex-wrap gap-6 justify-between items-end">
@@ -34,20 +61,20 @@ export default function AdminPanelPage() {
             Deep Dive Editor
           </h2>
           <p className="text-on-surface-variant leading-relaxed">
-            Manage behavioral and conceptual deep-dive questions. These appear in Deep Dive sessions.
+            Manage behavioral and conceptual deep-dives.
           </p>
         </div>
-        <Button variant="primary" size="sm" icon="add" iconPosition="left">
-          New Deep Dive Q
+        <Button variant="primary" size="sm" icon="add" iconPosition="left" onClick={() => navigate('/admin/concepts/new')}>
+          New Deep Dive Concept
         </Button>
       </section>
 
       {/* Stats */}
       <section className="grid grid-cols-1 sm:grid-cols-3 gap-5 mb-10">
         {[
-          { label: 'Total Questions', value: '48', icon: 'psychology',   colorBg: 'bg-primary-50 dark:bg-primary-900/30',   colorText: 'text-primary-700 dark:text-primary-300' },
-          { label: 'Published',       value: '36', icon: 'public',        colorBg: 'bg-success-container/60 dark:bg-success-container/30', colorText: 'text-on-success-container dark:text-success' },
-          { label: 'Pending Review',  value: '12', icon: 'hourglass_top', colorBg: 'bg-slate-100 dark:bg-surface-container-high',           colorText: 'text-on-surface-variant' },
+          { label: 'Total Concepts', value: concepts.length.toString(), icon: 'psychology',   colorBg: 'bg-primary-50 dark:bg-primary-900/30',   colorText: 'text-primary-700 dark:text-primary-300' },
+          { label: 'Published',       value: concepts.filter(c => c.published).length.toString(), icon: 'public',        colorBg: 'bg-success-container/60 dark:bg-success-container/30', colorText: 'text-on-success-container dark:text-success' },
+          { label: 'Draft',  value: concepts.filter(c => !c.published).length.toString(), icon: 'edit_document', colorBg: 'bg-slate-100 dark:bg-surface-container-high',           colorText: 'text-on-surface-variant' },
         ].map((stat) => (
           <div
             key={stat.label}
@@ -74,17 +101,13 @@ export default function AdminPanelPage() {
           shadow-card-light dark:shadow-card-dark"
       >
         <div className="px-6 py-4 border-b border-slate-100 dark:border-white/[0.06] flex items-center justify-between">
-          <h3 className="font-bold text-on-surface">All Questions</h3>
+          <h3 className="font-bold text-on-surface">Deep Dive Concepts</h3>
           <div className="flex gap-3">
             <select className={selectClass}>
               <option>All Topics</option>
-              <option>Data Structures</option>
-              <option>Behavioral</option>
             </select>
             <select className={selectClass}>
               <option>All Status</option>
-              <option>Published</option>
-              <option>Draft</option>
             </select>
           </div>
         </div>
@@ -93,7 +116,7 @@ export default function AdminPanelPage() {
           <table className="w-full text-left">
             <thead>
               <tr className="bg-slate-50 dark:bg-surface-container-low/60">
-                {['Question', 'Topic', 'Difficulty', 'Status', 'Actions'].map((col) => (
+                {['Concept', 'Topic', 'Difficulty', 'Status', 'Actions'].map((col) => (
                   <th key={col} className="px-6 py-4 text-[11px] font-bold uppercase tracking-widest text-on-surface-variant">
                     {col}
                   </th>
@@ -101,27 +124,30 @@ export default function AdminPanelPage() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 dark:divide-white/[0.04]">
-              {deepDiveQuestions.map((q) => (
-                <tr key={q.id} className="hover:bg-slate-50 dark:hover:bg-white/3 transition-colors group">
+              {loading ? (
+                <tr><td colSpan={5} className="p-6 text-center text-on-surface-variant">Loading...</td></tr>
+              ) : concepts.map((c) => (
+                <tr key={c._id} className="hover:bg-slate-50 dark:hover:bg-white/3 transition-colors group">
                   <td className="px-6 py-5">
                     <p className="font-semibold text-on-surface max-w-xs group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors truncate">
-                      {q.question}
+                      {c.title}
                     </p>
                   </td>
-                  <td className="px-6 py-5 text-sm text-on-surface-variant whitespace-nowrap">{q.topic}</td>
+                  <td className="px-6 py-5 text-sm text-on-surface-variant whitespace-nowrap">{(c.topicId as any)?.name || 'Unknown'}</td>
                   <td className="px-6 py-5">
-                    <Badge label={q.difficulty} variant={diffBadge[q.difficulty]} uppercase />
+                    <Badge label={c.difficulty} variant={diffBadge[c.difficulty] || 'neutral'} uppercase />
                   </td>
                   <td className="px-6 py-5">
                     <Badge
-                      label={q.status}
-                      variant={q.status === 'published' ? 'success' : 'neutral'}
+                      label={c.published ? 'PUBLISHED' : 'DRAFT'}
+                      variant={c.published ? 'success' : 'neutral'}
                       uppercase
                     />
                   </td>
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                       <button
+                        onClick={() => navigate(`/admin/concepts/${c._id}/edit`)}
                         className="p-2 rounded-xl transition-colors
                           hover:bg-primary-50 text-primary-600
                           dark:hover:bg-primary-900/40 dark:text-primary-400"
@@ -130,6 +156,7 @@ export default function AdminPanelPage() {
                         <Icon name="edit" size="sm" />
                       </button>
                       <button
+                        onClick={() => handleDelete(c._id)}
                         className="p-2 rounded-xl transition-colors
                           hover:bg-error-container/40 text-error
                           dark:hover:bg-error-container/50"

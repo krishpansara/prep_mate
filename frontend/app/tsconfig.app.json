@@ -30,8 +30,10 @@
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@hooks/*": ["src/hooks/*"],
+      "@contexts/*": ["src/contexts/*"],
       "@types-app/*": ["src/types/*"],
-      "@design-system/*": ["src/design-system/*"]
+      "@design-system/*": ["src/design-system/*"],
+      "@lib/*": ["src/lib/*"]
     }
   },
   "include": ["src"]

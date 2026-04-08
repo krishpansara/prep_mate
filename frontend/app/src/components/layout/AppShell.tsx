@@ -3,21 +3,22 @@ import type { ReactNode } from 'react'
 import Navbar from './Navbar'
 import Sidebar from './Sidebar'
 import MobileBottomBar from './MobileBottomBar'
-import type { NavItem, User } from '@types-app/index'
+import type { NavItem } from '@types-app/index'
+
+// Note: Navbar reads its user from useAuth() internally — no user prop needed here.
 
 interface AppShellProps {
   children: ReactNode
   navLinks?: NavItem[]
-  user?: User
   showSearch?: boolean
 }
 
-export default function AppShell({ children, navLinks, user, showSearch }: AppShellProps) {
+export default function AppShell({ children, navLinks, showSearch }: AppShellProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   return (
     <div className="min-h-screen bg-background relative">
-      <Navbar navLinks={navLinks} user={user} showSearch={showSearch} onMenuClick={() => setIsMobileMenuOpen(true)} />
+      <Navbar navLinks={navLinks} showSearch={showSearch} onMenuClick={() => setIsMobileMenuOpen(true)} />
 
       <div className="flex w-full min-h-[calc(100vh-65px)]">
         <Sidebar isOpen={isMobileMenuOpen} onClose={() => setIsMobileMenuOpen(false)} />

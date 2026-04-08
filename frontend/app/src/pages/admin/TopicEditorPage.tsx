@@ -1,7 +1,9 @@
 import { useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import AdminShell from '@components/layout/AdminShell'
 import Button from '@components/ui/Button'
 import Icon from '@components/ui/Icon'
+import { topicsApi } from '@lib/api'
 
 const initialState = {
   name: '',
@@ -16,20 +18,50 @@ const initialState = {
 const iconOptions = ['category', 'account_tree', 'terminal', 'hub', 'database', 'psychology', 'coffee', 'bolt']
 
 export default function TopicEditorPage() {
+  const navigate = useNavigate()
+  const { id } = useParams<{ id: string }>()
   const [form, setForm] = useState(initialState)
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleSave = async () => {
+    setIsLoading(true)
+    setError(null)
+    try {
+      if (id && id !== 'new') {
+        await topicsApi.update(id, form)
+      } else {
+        await topicsApi.create(form)
+      }
+      navigate('/admin/topics')
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Save failed')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   return (
     <AdminShell>
       <div className="flex items-center justify-between mb-10">
         <div>
-          <p className="text-xs text-on-surface-variant uppercase tracking-widest font-semibold mb-2">Creating New Topic</p>
+          <button
+            onClick={() => navigate('/admin/topics')}
+            className="flex items-center gap-1.5 text-xs font-semibold text-on-surface-variant uppercase tracking-widest mb-2 hover:text-on-surface transition-colors"
+          >
+            <Icon name="arrow_back" size="xs" />
+            Back to Topics
+          </button>
           <h2 className="text-4xl font-extrabold tracking-tight font-headline">Topic Editor</h2>
         </div>
-        <div className="flex gap-4">
-          <Button variant="ghost" size="sm">Cancel</Button>
-          <Button variant="primary" size="sm" icon="save" iconPosition="left">
-            {form.published ? 'Publish' : 'Save Draft'}
-          </Button>
+        <div className="flex flex-col items-end gap-2">
+          {error && <p className="text-xs text-red-500">{error}</p>}
+          <div className="flex gap-4">
+            <Button variant="ghost" size="sm" onClick={() => navigate('/admin/topics')}>Cancel</Button>
+            <Button variant="primary" size="sm" icon="save" iconPosition="left" onClick={handleSave}>
+              {isLoading ? 'Saving…' : form.published ? 'Publish' : 'Save Draft'}
+            </Button>
+          </div>
         </div>
       </div>
 

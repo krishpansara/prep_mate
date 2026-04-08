@@ -5,9 +5,12 @@ import HeroSection from '@components/sections/HeroSection'
 import TopicsGrid from '@components/sections/TopicsGrid'
 import WhySection from '@components/sections/WhySection'
 import CTASection from '@components/sections/CTASection'
+import { useAuth } from '@contexts/AuthContext'
 
 export default function LandingPage() {
   const navigate = useNavigate()
+  const { user } = useAuth()
+  const handleCTA = () => navigate(user ? '/app/dashboard' : '/register')
 
   return (
     <div className="min-h-screen bg-background">
@@ -15,7 +18,7 @@ export default function LandingPage() {
 
       <main>
         <HeroSection
-          onPrimaryClick={() => navigate('/dashboard')}
+          onPrimaryClick={handleCTA}
           onSecondaryClick={() => {
             document.getElementById('topics')?.scrollIntoView({ behavior: 'smooth' })
           }}
@@ -27,7 +30,7 @@ export default function LandingPage() {
 
         <WhySection />
 
-        <CTASection onAction={() => navigate('/dashboard')} />
+        <CTASection onAction={handleCTA} />
       </main>
 
       <Footer />
