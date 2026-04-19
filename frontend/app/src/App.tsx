@@ -22,12 +22,13 @@ const OnboardingPage         = lazy(() => import('@pages/OnboardingPage'))
 const LibraryPage            = lazy(() => import('@pages/LibraryPage'))
 const CurriculumPage         = lazy(() => import('@pages/CurriculumPage'))
 const InterviewQuestionsPage = lazy(() => import('@pages/InterviewQuestionsPage'))
-const TopicPagePython        = lazy(() => import('@pages/TopicPagePython'))
+const TopicPage              = lazy(() => import('@pages/TopicPage'))
 const DeepDiveQuestionPage   = lazy(() => import('@pages/DeepDiveQuestionPage'))
 const LearningConceptsPage   = lazy(() => import('@pages/LearningConceptsPage'))
 const ConceptDetailPage      = lazy(() => import('@pages/ConceptDetailPage'))
 const ProfilePage            = lazy(() => import('@pages/ProfilePage'))
 const SettingsPage           = lazy(() => import('@pages/SettingsPage'))
+const ChangePasswordPage     = lazy(() => import('@pages/ChangePasswordPage'))
 const CommunityPage          = lazy(() => import('@pages/CommunityPage'))
 
 // Admin pages
@@ -37,6 +38,7 @@ const TopicManagementPage    = lazy(() => import('@pages/admin/TopicManagementPa
 const ConceptManagementPage  = lazy(() => import('@pages/admin/ConceptManagementPage'))
 const ConceptEditorPage      = lazy(() => import('@pages/admin/ConceptEditorPage'))
 const QuestionEditorPage     = lazy(() => import('@pages/admin/QuestionEditorPage'))
+const QuestionManagementPage = lazy(() => import('@pages/admin/QuestionManagementPage'))
 const TopicEditorPage        = lazy(() => import('@pages/admin/TopicEditorPage'))
 const AnalyticsDashboardPage = lazy(() => import('@pages/admin/AnalyticsDashboardPage'))
 const AdminPanelPage         = lazy(() => import('@pages/admin/AdminPanelPage'))
@@ -67,7 +69,7 @@ export default function App() {
             <Route path="/forgot-password"        element={<ForgotPasswordPage />} />
             <Route path="/reset-password"         element={<ResetPasswordPage />} />
             <Route path="/reset-password/:token"  element={<ResetPasswordPage />} />
-            <Route path="/verify-email/:token"    element={<VerifyEmailPage />} />
+            <Route path="/verify-email"         element={<VerifyEmailPage />} />
 
             {/* Public-browsable library (no auth needed to browse) */}
             <Route path="/library"           element={<LibraryPage />} />
@@ -75,7 +77,7 @@ export default function App() {
 
             {/* ── Public AppLayout Routes (No Auth Required) ───────────── */}
             <Route element={<AppLayout requireAuth={false} />}>
-              <Route path="/app/learn/topics/:slug"     element={<TopicPagePython />} />
+              <Route path="/app/learn/topics/:slug"     element={<TopicPage />} />
               <Route path="/app/learn/concepts"         element={<LearningConceptsPage />} />
               <Route path="/app/learn/concepts/:slug"   element={<ConceptDetailPage />} />
             </Route>
@@ -89,7 +91,10 @@ export default function App() {
               <Route path="practice/deep-dive"     element={<DeepDiveQuestionPage />} />
               <Route path="community"              element={<CommunityPage />} />
               <Route path="profile"                element={<ProfilePage />} />
-              <Route path="settings"               element={<SettingsPage />} />
+              <Route path="settings">
+                <Route index element={<SettingsPage />} />
+                <Route path="change-password" element={<ChangePasswordPage />} />
+              </Route>
             </Route>
 
             {/* ── Backward-compat redirects (old flat URLs → /app/**) ── */}
@@ -130,7 +135,7 @@ export default function App() {
               <AdminRoute><ConceptEditorPage /></AdminRoute>
             } />
             <Route path="/admin/questions" element={
-              <AdminRoute><QuestionEditorPage /></AdminRoute>
+              <AdminRoute><QuestionManagementPage /></AdminRoute>
             } />
             <Route path="/admin/questions/new" element={
               <AdminRoute><QuestionEditorPage /></AdminRoute>

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link, useNavigate } from 'react-router-dom'
 import type { NavItem } from '@types-app/index'
 import Icon from '@components/ui/Icon'
 import ThemeToggle from '@components/ui/ThemeToggle'
@@ -26,6 +26,7 @@ export default function Navbar({
   onMenuClick,
 }: NavbarProps) {
   const { user, logout } = useAuth()
+  const navigate = useNavigate()
   const [searchFocused, setSearchFocused] = useState(false)
   const [dropdownOpen, setDropdownOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
@@ -189,6 +190,16 @@ export default function Navbar({
                   {/* Menu items */}
                   <div className="p-1.5 flex flex-col gap-0.5">
                     <Link
+                      to="/app/dashboard"
+                      onClick={() => setDropdownOpen(false)}
+                      className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all
+                        text-on-surface-variant hover:text-on-surface hover:bg-slate-100
+                        dark:text-white/60 dark:hover:text-white dark:hover:bg-white/[0.06]"
+                    >
+                      <Icon name="dashboard" size="sm" />
+                      Dashboard
+                    </Link>
+                    <Link
                       to="/app/profile"
                       onClick={() => setDropdownOpen(false)}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all
@@ -208,7 +219,7 @@ export default function Navbar({
                       <Icon name="settings" size="sm" />
                       Settings
                     </Link>
-                    {user.role === 'admin' && (
+                    {user.role === 'ADMIN' && (
                       <Link
                         to="/admin"
                         onClick={() => setDropdownOpen(false)}
@@ -222,7 +233,11 @@ export default function Navbar({
                     )}
                     <div className="border-t border-slate-100 dark:border-white/[0.06] my-1" />
                     <button
-                      onClick={() => { logout(); setDropdownOpen(false) }}
+                      onClick={() => {
+                        logout()
+                        navigate('/')
+                        setDropdownOpen(false)
+                      }}
                       className="flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all w-full text-left
                         text-red-500 hover:bg-red-50
                         dark:text-red-400 dark:hover:bg-red-500/10"

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import type { FormEvent } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '@contexts/AuthContext'
 import Icon from '@components/ui/Icon'
@@ -8,23 +7,23 @@ export default function RegisterPage() {
   const { register, user, isLoading } = useAuth()
   const navigate = useNavigate()
 
-  const [name, setName]             = useState('')
-  const [email, setEmail]           = useState('')
-  const [password, setPassword]     = useState('')
-  const [confirm, setConfirm]       = useState('')
-  const [error, setError]           = useState<string | null>(null)
-  const [showPw, setShowPw]         = useState(false)
+  const [name, setName]         = useState('')
+  const [email, setEmail]       = useState('')
+  const [password, setPassword] = useState('')
+  const [confirm, setConfirm]   = useState('')
+  const [error, setError]       = useState<string | null>(null)
+  const [showPw, setShowPw]     = useState(false)
 
   useEffect(() => {
-    if (user) navigate('/app/dashboard', { replace: true })
+    if (user) navigate('/', { replace: true })
   }, [user, navigate])
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError(null)
 
-    if (password.length < 6) {
-      setError('Password must be at least 6 characters.')
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.')
       return
     }
     if (password !== confirm) {
@@ -34,13 +33,14 @@ export default function RegisterPage() {
 
     try {
       await register(name.trim(), email.trim(), password)
-      navigate('/app/onboarding', { replace: true })
+      // Redirect to OTP verification page with the email pre-filled
+      navigate(`/verify-email?email=${encodeURIComponent(email.trim())}`, { replace: true })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Registration failed.')
     }
   }
 
-  const valid = name.trim().length > 0 && email.includes('@') && password.length >= 6 && password === confirm
+  const valid = name.trim().length > 0 && email.includes('@') && password.length >= 8 && password === confirm
 
   return (
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
